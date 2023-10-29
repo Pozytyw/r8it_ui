@@ -1,0 +1,10 @@
+{
+  "appName": "R8it",
+  "emailFieldLabel": "Email",
+  "passwordFieldLabel": "Hasło",
+  "passwordConfirmFieldLabel": "Powtórz hasło",
+  "loginPageButton": "Zaloguj",
+  "signupRedirectButton": "Utwórz nowe konto",
+  "loginRedirectButton": "Logowanie",
+  "signupPageButton": "Zarejestruj"
+}
