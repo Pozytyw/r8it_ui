@@ -2,10 +2,11 @@
   "appName": "R8it",
   "loginWelcomeMessage": "Welcome back!",
   "loginMessage": "sign in to access your account",
-  "phoneFieldLabel": "Enter your phone number",
-  "passwordFieldLabel": "Password",
   "forgetPasswordLink": "Forget password ?",
-  "nextButton": "Next",
   "newMemberQuestion": "New Member?",
-  "registerLink": "Register now!"
+  "registerLink": "Register now!",
+  "nextButton": "Next",
+  "passwordFieldLabel": "Password",
+  "phoneFieldLabel": "Enter your phone number",
+  "emailFieldLabel": "Email"
 }

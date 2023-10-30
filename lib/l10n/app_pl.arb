@@ -2,10 +2,11 @@
   "appName": "R8it",
   "loginWelcomeMessage": "Witaj ponownie!",
   "loginMessage": "logowanie",
+  "forgetPasswordLink": "Zapomniałeś hasła ?",
+  "newMemberQuestion": "Nie posiadasz konta?",
+  "registerLink": "Zarejestruj się już teraz!",
+  "nextButton": "Dalej",
   "phoneFieldLabel": "Numer telefonu",
   "passwordFieldLabel": "Hasło",
-  "forgetPasswordLink": "Zapomniałeś hasła ?",
-  "nextButton": "Dalej",
-  "newMemberQuestion": "Nie posiadasz konta?",
-  "registerLink": "Zarejestruj się już teraz!"
+  "emailFieldLabel": "Email"
 }

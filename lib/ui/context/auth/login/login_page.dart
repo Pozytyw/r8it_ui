@@ -28,9 +28,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() {
-    if (_loginForm.passwordEditingController.value.text.isEmpty || _loginForm.phoneEditingController.value.text.isEmpty) {
+    if (_loginForm.passwordEditingController.value.text.isEmpty || _loginForm.emailEditingController.value.text.isEmpty) {
       setState(() {
-        _loginForm.phoneValidationMessage  = 'Testowy';
+        _loginForm.emailValidationMessage  = 'Testowy';
         _loginForm.passwordValidationMessage  = 'Testowy';
         _loginForm.globalErrorMessage  = 'Testowy';
         _loginForm.passwordEditingController.clear();
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     setState(() {
-      _loginForm.phoneValidationMessage = null;
+      _loginForm.emailValidationMessage = null;
       _loginForm.passwordValidationMessage = null;
       _loginForm.globalErrorMessage = null;
     });

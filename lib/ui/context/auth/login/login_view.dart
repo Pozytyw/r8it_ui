@@ -6,16 +6,16 @@ import 'package:r8it/ui/widget/size.dart';
 
 class LoginForm {
   VoidCallback submitCallback;
-  TextEditingController phoneEditingController;
-  String? phoneValidationMessage;
+  TextEditingController emailEditingController;
+  String? emailValidationMessage;
   TextEditingController passwordEditingController;
   String? passwordValidationMessage;
   String? globalErrorMessage;
 
   LoginForm(
     this.submitCallback,
-    this.phoneEditingController,
-    this.phoneValidationMessage,
+    this.emailEditingController,
+    this.emailValidationMessage,
     this.passwordEditingController,
     this.passwordValidationMessage,
     this.globalErrorMessage,
@@ -54,11 +54,11 @@ class LoginView extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
                 child: TextField(
-                  controller: _loginForm.phoneEditingController,
+                  controller: _loginForm.emailEditingController,
                   autocorrect: false,
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    label: Text(l10n.phoneFieldLabel),
+                    label: Text(l10n.emailFieldLabel),
                   ),
                 ),
               ),
@@ -71,7 +71,7 @@ class LoginView extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  _loginForm.phoneValidationMessage ?? "",
+                  _loginForm.emailValidationMessage ?? "",
                   style: theme.textTheme.bodySmall
                       ?.apply(color: colorScheme.error),
                 ),
