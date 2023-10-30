@@ -5,7 +5,7 @@ import 'package:r8it/storage/preferences.dart';
 import 'package:r8it/ui/app_router.dart';
 import 'package:r8it/ui/state/simple_events.dart';
 
-import 'color_schema.dart';
+import 'app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   }
 
   Widget buildWithLocaleFromPreferences(Locale locale) {
-    var appColorSchema = AppColorSchema();
+    var appColorSchema = AppThemeData();
     return MaterialApp.router(
       locale: locale,
       debugShowCheckedModeBanner: false,

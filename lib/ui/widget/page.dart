@@ -5,10 +5,16 @@ import 'package:r8it/storage/preferences.dart';
 import 'package:r8it/ui/state/simple_events.dart';
 
 class AppPage extends StatelessWidget {
+  final EdgeInsets bodyPadding;
   final Widget? appBarTitleWidget;
   final Widget? body;
 
-  const AppPage({this.appBarTitleWidget, super.key, this.body});
+  const AppPage({
+    this.appBarTitleWidget,
+    super.key,
+    this.body,
+    this.bodyPadding = const EdgeInsets.all(8.0),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +25,7 @@ class AppPage extends StatelessWidget {
         actions: const [LanguageSelector()],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: bodyPadding,
         child: body,
       ),
     );
@@ -60,7 +66,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   List<DropdownMenuItem<String>> supportedLanguagesAsDropdownMenuItem() {
     return AppLocalizations.supportedLocales
         .map((e) => e.languageCode)
-        .map((e) => DropdownMenuItem<String>(value: e, child: Padding(
+        .map((e) =>
+        DropdownMenuItem<String>(value: e, child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(e),
         )))
@@ -68,6 +75,9 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   Future<String> currentLanguageFuture() {
-    return GlobalPreferences.instance().then((it) => it.getPreferableLocale().languageCode);
+    return GlobalPreferences.instance().then((it) =>
+    it
+        .getPreferableLocale()
+        .languageCode);
   }
 }

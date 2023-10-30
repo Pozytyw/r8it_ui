@@ -26,5 +26,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-Regular.ttf
+    - family: Montserrat-Thin
+      fonts:
+        - asset: fonts/Montserrat-Thin.ttf
   generate: true
   uses-material-design: true
