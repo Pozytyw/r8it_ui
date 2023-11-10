@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:r8it/storage/vault.dart';
+import 'package:r8it/ui/app_router.dart';
 import 'package:r8it/ui/context/auth/login/login_view.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,12 +29,13 @@ class _LoginPageState extends State<LoginPage> {
     return LoginView(_loginForm);
   }
 
-  void _login() {
-    if (_loginForm.passwordEditingController.value.text.isEmpty || _loginForm.emailEditingController.value.text.isEmpty) {
+  void _login(BuildContext context) {
+    if (_loginForm.passwordEditingController.value.text.isEmpty ||
+        _loginForm.emailEditingController.value.text.isEmpty) {
       setState(() {
-        _loginForm.emailValidationMessage  = 'Testowy';
-        _loginForm.passwordValidationMessage  = 'Testowy';
-        _loginForm.globalErrorMessage  = 'Testowy';
+        _loginForm.emailValidationMessage = 'Testowy';
+        _loginForm.passwordValidationMessage = 'Testowy';
+        _loginForm.globalErrorMessage = 'Testowy';
         _loginForm.passwordEditingController.clear();
       });
       return;
@@ -42,5 +45,8 @@ class _LoginPageState extends State<LoginPage> {
       _loginForm.passwordValidationMessage = null;
       _loginForm.globalErrorMessage = null;
     });
+    Vault.instance()
+        .then((v) => v.setAuthToken("bleble"))
+        .then((value) => AppRouter.goHomePage(context));
   }
 }

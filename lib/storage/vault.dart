@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Vault {
-  static const tokenKey = "authToken";
+  static const _tokenKey = "authToken";
   final SharedPreferences _storage;
 
   Vault._(this._storage);
@@ -11,7 +11,11 @@ class Vault {
   }
 
   bool isTokenAccessible() {
-    var value = _storage.getString(tokenKey);
+    var value = _storage.getString(_tokenKey);
     return value != null && value.isNotEmpty;
+  }
+
+  Future<bool> setAuthToken(String value) {
+    return _storage.setString(_tokenKey, value);
   }
 }

@@ -2,27 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:r8it/storage/vault.dart';
 import 'package:r8it/ui/context/auth/login/login_page.dart';
+import 'package:r8it/ui/context/home/home_view.dart';
 
 class AppRouter {
-  static const homePageName = 'homePage';
-  static const loginPageName = 'loginPage';
-  static const signupPageName = 'signupPage';
+  static const _homePageName = 'homePage';
+  static const _loginPageName = 'loginPage';
+  static const _signupPageName = 'signupPage';
 
   static final router = GoRouter(
     initialLocation: '/',
     routes: [
       GoRoute(
-          name: homePageName,
-          path: '/',
-          builder: (context, state) => const Placeholder(),
-          redirect: (context, state) => authCheck()),
+        name: _homePageName,
+        path: '/',
+        builder: (context, state) => const HomeView(),
+        redirect: (context, state) => authCheck(),
+      ),
       GoRoute(
-        name: loginPageName,
+        name: _loginPageName,
         path: '/auth/login',
         builder: (context, state) => const LoginPage(),
       )
     ],
   );
+
+  static void goHomePage(BuildContext context) {
+    GoRouter.of(context).goNamed(_homePageName);
+  }
 
   static Future<String?> authCheck() {
     return Vault.instance()

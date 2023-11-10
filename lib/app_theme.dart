@@ -16,8 +16,16 @@ class AppThemeData {
     return themeData.copyWith(
       textTheme: themeData.textTheme
           .copyWith(
-            labelLarge: TextStyle(
-              fontSize: 18,
+            headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            titleLarge: themeData.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            labelLarge: themeData.textTheme.labelLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           )
