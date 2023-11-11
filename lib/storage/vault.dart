@@ -18,4 +18,8 @@ class Vault {
   Future<bool> setAuthToken(String value) {
     return _storage.setString(_tokenKey, value);
   }
+
+  Future<bool> removeAuthToken() {
+    return _storage.remove(_tokenKey);
+  }
 }

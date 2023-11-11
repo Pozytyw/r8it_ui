@@ -7,21 +7,25 @@ import 'package:r8it/ui/widget/form/single_text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/page.dart';
 
-class LoginForm {
-  final Function(BuildContext) submitCallback;
+class SignupForm {
+  Function(BuildContext) submitCallback;
+  TextEditingController phoneEditingController = TextEditingController();
+  String? phoneValidationMessage;
   TextEditingController emailEditingController = TextEditingController();
   String? emailValidationMessage;
+  TextEditingController usernameEditingController = TextEditingController();
+  String? usernameValidationMessage;
   TextEditingController passwordEditingController = TextEditingController();
   String? passwordValidationMessage;
   String? globalErrorMessage;
 
-  LoginForm(this.submitCallback);
+  SignupForm(this.submitCallback);
 }
 
-class LoginView extends StatelessWidget {
-  final LoginForm _loginForm;
+class SignupView extends StatelessWidget {
+  final SignupForm _signupForm;
 
-  const LoginView(this._loginForm, {super.key});
+  const SignupView(this._signupForm, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +36,34 @@ class LoginView extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(l10n.loginWelcomeMessage, style: theme.textTheme.titleLarge),
-          Text(l10n.loginMessage, style: theme.textTheme.titleSmall),
+          Text(l10n.registerWelcomeMessage, style: theme.textTheme.titleLarge),
+          Text(l10n.registerMessage, style: theme.textTheme.titleSmall),
           const SizedBox(height: 64),
           SingleTextField(
-            controller: _loginForm.emailEditingController,
-            label: Text(l10n.emailFieldLabel),
-            errorMessage: _loginForm.emailValidationMessage,
+            controller: _signupForm.phoneEditingController,
+            label: Text(l10n.phoneFieldLabel),
+            errorMessage: _signupForm.phoneValidationMessage,
           ),
           SingleTextField(
-            controller: _loginForm.passwordEditingController,
+            controller: _signupForm.emailEditingController,
+            label: Text(l10n.emailFieldLabel),
+            errorMessage: _signupForm.emailValidationMessage,
+          ),
+          SingleTextField(
+            controller: _signupForm.usernameEditingController,
+            label: Text(l10n.usernameFieldLabel),
+            errorMessage: _signupForm.emailValidationMessage,
+          ),
+          SingleTextField(
+            controller: _signupForm.passwordEditingController,
             password: true,
             label: Text(l10n.passwordFieldLabel),
-            errorMessage: _loginForm.passwordValidationMessage,
+            errorMessage: _signupForm.passwordValidationMessage,
           ),
-          ErrorMessageWidget(_loginForm.globalErrorMessage),
-          // todo: implement forget button
-          // Align(
-          //   alignment: Alignment.centerRight,
-          //   child: Text(
-          //     l10n.forgetPasswordLink,
-          //     style: theme.textTheme.bodyMedium?.apply(
-          //       color: colorScheme.primary,
-          //     ),
-          //   ),
-          // ),
+          ErrorMessageWidget(_signupForm.globalErrorMessage),
           const Spacer(),
           FilledButton(
-            onPressed: () => _loginForm.submitCallback(context),
+            onPressed: () => _signupForm.submitCallback(context),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: IconLabel(
@@ -76,17 +80,17 @@ class LoginView extends StatelessWidget {
             child: Center(
               child: RichText(
                 text: TextSpan(
-                  text: "${l10n.newMemberQuestion} ",
+                  text: "${l10n.oldMemberQuestion} ",
                   style: theme.textTheme.bodyMedium,
                   children: [
                     TextSpan(
-                      text: l10n.registerLink,
+                      text: l10n.loginLink,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
                       ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => AppRouter.goSignupPageName(context),
+                        ..onTap = () => AppRouter.goLoginPageName(context),
                     ),
                   ],
                 ),

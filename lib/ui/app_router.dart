@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:r8it/storage/vault.dart';
 import 'package:r8it/ui/context/auth/login/login_page.dart';
+import 'package:r8it/ui/context/auth/signup/signup_page.dart';
 import 'package:r8it/ui/context/home/home_view.dart';
 
 class AppRouter {
@@ -22,12 +23,25 @@ class AppRouter {
         name: _loginPageName,
         path: '/auth/login',
         builder: (context, state) => const LoginPage(),
+      ),
+      GoRoute(
+        name: _signupPageName,
+        path: '/auth/signup',
+        builder: (context, state) => const SignupPage(),
       )
     ],
   );
 
   static void goHomePage(BuildContext context) {
     GoRouter.of(context).goNamed(_homePageName);
+  }
+
+  static void goLoginPageName(BuildContext context) {
+    GoRouter.of(context).goNamed(_loginPageName);
+  }
+
+  static void goSignupPageName(BuildContext context) {
+    GoRouter.of(context).goNamed(_signupPageName);
   }
 
   static Future<String?> authCheck() {

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-class AppThemeData {
-  static const Color background = Color(0xff151d3d);
-  static const Color onSurface = Color(0xff1c2755);
-  static const Color primaryColor = Color(0xff3658D7);
-  static const Color white = Color(0xffffffff);
-  static const Color error = Color(0xfffe645a);
+const Color _background = Color(0xff151d3d);
+const Color _onSurface = Color(0xff1c2755);
+const Color _primaryColor = Color(0xff3658D7);
+const Color _white = Color(0xffffffff);
+const Color _success = Color(0xff107670);
+const Color _error = Color(0xfffe645a);
 
+
+extension ColorSchemeExtension on ColorScheme {
+  Color get success  => _success;
+}
+
+class AppThemeData {
   static final ThemeData _themeData = themeDataInit();
 
   ThemeData get themeData => _themeData;
@@ -31,10 +37,10 @@ class AppThemeData {
           )
           .apply(
             fontFamily: 'Montserrat',
-            displayColor: white,
-            bodyColor: white,
+            displayColor: _white,
+            bodyColor: _white,
             // decoration: white,
-            decorationColor: white,
+            decorationColor: _white,
             // decorationStyle: white,
           ),
       filledButtonTheme: FilledButtonThemeData(
@@ -58,7 +64,7 @@ class AppThemeData {
       // backgroundColor: Colors.red,
       // ),
       // ),
-      canvasColor: primaryColor,
+      canvasColor: _primaryColor,
       // cardColor: Colors.red,
       // dialogBackgroundColor: Colors.red,
       // disabledColor: Colors.red,
@@ -71,16 +77,16 @@ class AppThemeData {
       // primaryColor: primaryColor,
       // primaryColorDark: Colors.red,
       // primaryColorLight: Colors.red,
-      scaffoldBackgroundColor: background,
+      scaffoldBackgroundColor: _background,
       // secondaryHeaderColor: Colors.red,
       // shadowColor: Colors.red,
       // splashColor: Colors.red,
       // unselectedWidgetColor: Colors.red,
       colorScheme: themeData.colorScheme.copyWith(
-        primary: primaryColor,
-        onPrimary: white,
+        primary: _primaryColor,
+        onPrimary: _white,
         // primaryContainer: Colors.red,
-        onPrimaryContainer: white,
+        onPrimaryContainer: _white,
         // secondary: Colors.red,
         // onSecondary: Colors.red,
         // secondaryContainer: Colors.red,
@@ -89,16 +95,16 @@ class AppThemeData {
         // onTertiary: Colors.red,
         // tertiaryContainer: Colors.red,
         // onTertiaryContainer: Colors.red,
-        error: error,
+        error: _error,
         // onError: Colors.red,
         // errorContainer: Colors.red,
         // onErrorContainer: Colors.red,
         // background: Colors.red,
         // onBackground: Colors.red,
-        surface: background,
-        onSurface: onSurface,
+        surface: _background,
+        onSurface: _onSurface,
         // surfaceVariant: Colors.red,
-        onSurfaceVariant: white,
+        onSurfaceVariant: _white,
         // outline: Colors.red,
         // outlineVariant: Colors.red,
         // shadow: Colors.red,

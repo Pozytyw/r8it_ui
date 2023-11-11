@@ -5,8 +5,19 @@
   "forgetPasswordLink": "Zapomniałeś hasła ?",
   "newMemberQuestion": "Nie posiadasz konta?",
   "registerLink": "Zarejestruj się już teraz!",
+
+  "registerWelcomeMessage": "Get Started",
+  "registerMessage": "by creating a free account",
+  "oldMemberQuestion": "Already a Member?",
+  "loginLink": "Log in now!",
+
+  "registerOtpWelcomeMessage": "Get Started",
+  "registerOtpMessage": "Please enter the 6-digit code sent to\n{recipient}\nfor verification.",
+
+  "verifyButton": "Verify",
   "nextButton": "Dalej",
   "phoneFieldLabel": "Numer telefonu",
   "passwordFieldLabel": "Hasło",
-  "emailFieldLabel": "Email"
+  "emailFieldLabel": "Email",
+  "usernameFieldLabel": "How to call you?"
 }

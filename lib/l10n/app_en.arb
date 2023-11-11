@@ -1,12 +1,24 @@
 {
   "appName": "R8it",
+
   "loginWelcomeMessage": "Welcome back!",
   "loginMessage": "sign in to access your account",
   "forgetPasswordLink": "Forget password ?",
   "newMemberQuestion": "New Member?",
   "registerLink": "Register now!",
+
+  "registerWelcomeMessage": "Get Started",
+  "registerMessage": "by creating a free account",
+  "oldMemberQuestion": "Already a Member?",
+  "loginLink": "Log in now!",
+
+  "registerOtpWelcomeMessage": "Get Started",
+  "registerOtpMessage": "Please enter the 6-digit code sent to\n{recipient}\nfor verification.",
+
+  "verifyButton": "Verify",
   "nextButton": "Next",
   "passwordFieldLabel": "Password",
   "phoneFieldLabel": "Enter your phone number",
-  "emailFieldLabel": "Email"
+  "emailFieldLabel": "Email",
+  "usernameFieldLabel": "How to call you?"
 }

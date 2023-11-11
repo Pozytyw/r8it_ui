@@ -11,18 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late final LoginForm _loginForm;
-
-  _LoginPageState() {
-    _loginForm = LoginForm(
-      _login,
-      TextEditingController(),
-      null,
-      TextEditingController(),
-      null,
-      null,
-    );
-  }
+  late final LoginForm _loginForm = LoginForm(_login);
 
   @override
   Widget build(BuildContext context) {
