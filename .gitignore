@@ -45,3 +45,5 @@ app.*.map.json
 
 # Model generator
 /model_generator/src/
+/model_generator/apis/_merged_spec.json
+/model_generator/build/

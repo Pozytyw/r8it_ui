@@ -132,6 +132,9 @@
         }
       },
       "LoginResponse": {
+        "required": [
+          "jwt"
+        ],
         "type": "object",
         "properties": {
           "jwt": {
