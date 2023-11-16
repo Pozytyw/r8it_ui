@@ -7,7 +7,7 @@ java -jar openapi-generator-cli.jar ^
     -c configuration.json ^
     --input-spec-root-directory apis ^
     --model-name-suffix DTO ^
-    --global-property models
+    --global-property modelTests=false,modelDocs=false,models
 
 rd /s/q ..\lib\infrastructure\rit\model
 pause
