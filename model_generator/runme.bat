@@ -8,10 +8,10 @@ java -jar openapi-generator-cli.jar ^
     -c configuration.json ^
     --input-spec-root-directory apis ^
     --model-name-suffix DTO ^
-    --global-property modelTests=false,modelDocs=false
+    --global-property modelTests=false,modelDocs=false,models,apiTests=false,apiDocs=false,apis,supportingFiles=api.dart
 
-@REM xcopy src\lib ..\lib /s /e /h
-@REM cd ..
+xcopy src\lib ..\lib /s /e /h
+cd ..
 @REM flutter pub run build_runner build
-@REM cd model_generator
+cd model_generator
 pause
