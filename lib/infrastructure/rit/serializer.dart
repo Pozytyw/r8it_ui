@@ -17,6 +17,13 @@ T decodeResponse<T>(
   throw _tryDecodeError(response.data);
 }
 
+errorCheck(Response response) {
+  if (response.statusCode == 200) {
+    return;
+  }
+  throw _tryDecodeError(response.data);
+}
+
 Exception _tryDecodeError(responseData) {
   String? code;
   String? message;
