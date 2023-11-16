@@ -1,0 +1,5 @@
+{
+	"pubName": "r8it",
+	"sourceFolder": "../lib/infrastructure/rit",
+	"serializationLibrary": "json_serializable"
+}
