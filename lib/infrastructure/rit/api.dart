@@ -36,9 +36,3 @@ class R8itInterceptor implements Interceptor {
     handler.next(response);
   }
 }
-
-class HttpMethod {
-  static const post = r'POST';
-  static const get = r'GET';
-  static const delete = r'DELETE';
-}
