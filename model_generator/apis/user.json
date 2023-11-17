@@ -156,6 +156,21 @@
             "type": "string"
           }
         }
+      },
+      "Test": {
+        "required": [
+          "testA",
+          "testId"
+        ],
+        "type": "object",
+        "properties": {
+          "testId": {
+            "type": "string"
+          },
+          "testA": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {

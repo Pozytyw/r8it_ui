@@ -12,6 +12,6 @@ java -jar openapi-generator-cli.jar ^
 
 xcopy src\lib ..\lib /s /e /h
 cd ..
-@REM flutter pub run build_runner build
+flutter pub run build_runner build
 cd model_generator
 pause

@@ -6,7 +6,6 @@ import 'dart:async';
 
 // ignore: unused_import
 import 'dart:convert';
-import 'package:r8it/infrastructure/rit/api.dart';
 import 'package:r8it/infrastructure/rit/serializer.dart';
 import 'package:dio/dio.dart';
 
@@ -32,11 +31,13 @@ class AuthEndpointApi {
   Future<LoginResponseDTO> login({ 
     required LoginRequestDTO loginRequestDTO,
   }) async {
-    const path = r'/v1/rit/users/auth/login';
+    final path = r'/v1/rit/users/auth/login';
     final options = Options(
-      method: HttpMethod.post,
+      method: r'POST',
       contentType: 'application/json',
     );
+
+    Map<String, dynamic>? queryParameters;
 
     dynamic bodyData;
     bodyData=encodeRequest(loginRequestDTO);
@@ -44,6 +45,7 @@ class AuthEndpointApi {
     final response = await _dio.request<Object>(
       path,
       data: bodyData,
+      queryParameters: queryParameters,
       options: options
     );
     return decodeResponse(response, LoginResponseDTO.fromJson);
@@ -60,11 +62,13 @@ class AuthEndpointApi {
   Future<void> registerInit({ 
     required RegisterRequestDTO registerRequestDTO,
   }) async {
-    const path = r'/v1/rit/users/auth/register';
+    final path = r'/v1/rit/users/auth/register';
     final options = Options(
-      method: HttpMethod.post,
+      method: r'POST',
       contentType: 'application/json',
     );
+
+    Map<String, dynamic>? queryParameters;
 
     dynamic bodyData;
     bodyData=encodeRequest(registerRequestDTO);
@@ -72,6 +76,7 @@ class AuthEndpointApi {
     final response = await _dio.request<Object>(
       path,
       data: bodyData,
+      queryParameters: queryParameters,
       options: options
     );
     
@@ -89,11 +94,13 @@ class AuthEndpointApi {
   Future<LoginResponseDTO> userRegisterConfirmOtp({ 
     required RegisterOtpRequestDTO registerOtpRequestDTO,
   }) async {
-    const path = r'/v1/rit/users/auth/register/otp';
+    final path = r'/v1/rit/users/auth/register/otp';
     final options = Options(
-      method: HttpMethod.post,
+      method: r'POST',
       contentType: 'application/json',
     );
+
+    Map<String, dynamic>? queryParameters;
 
     dynamic bodyData;
     bodyData=encodeRequest(registerOtpRequestDTO);
@@ -101,6 +108,7 @@ class AuthEndpointApi {
     final response = await _dio.request<Object>(
       path,
       data: bodyData,
+      queryParameters: queryParameters,
       options: options
     );
     return decodeResponse(response, LoginResponseDTO.fromJson);

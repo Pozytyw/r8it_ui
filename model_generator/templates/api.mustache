@@ -31,18 +31,29 @@ class {{classname}} {
     {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
     {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
   }) async {
-    const path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
+    final path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
     final options = Options(
-      method: HttpMethod.{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}},{{#hasConsumes}}
+      method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',{{#hasConsumes}}
       contentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
     );
 
-    dynamic bodyData;
-    {{#bodyParam}}bodyData=encodeRequest({{{paramName}}});{{/bodyParam}}
+    Map<String, dynamic>? queryParameters;
+    {{#hasQueryParams}}
+    queryParameters = {
+      {{#queryParams}}
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
+      {{/queryParams}}
+    };
+    {{/hasQueryParams}}
+
+    dynamic bodyData;{{#bodyParam}}
+    bodyData=encodeRequest({{{paramName}}});
+    {{/bodyParam}}
 
     final response = await _dio.request<Object>(
       path,
       data: bodyData,
+      queryParameters: queryParameters,
       options: options
     );
     {{#returnType}}return decodeResponse(response, {{{returnType}}}.fromJson);{{/returnType}}{{^returnType}}

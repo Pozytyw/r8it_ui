@@ -27,7 +27,6 @@ class R8itInterceptor implements Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     options.validateStatus = (it) => true;
-    /*todo: auth token*/
     handler.next(options);
   }
 
