@@ -1,0 +1,35 @@
+{{>header}}
+import 'package:dio/dio.dart';
+{{#apiInfo}}{{#apis}}import 'package:{{pubName}}/{{importPrefix}}/{{apiPackage}}/{{classFilename}}.dart';
+{{/apis}}{{/apiInfo}}
+class {{clientName}} {
+  final Dio dio;
+
+  {{clientName}}({required this.dio}) {
+    dio.interceptors.add({{clientName}}Interceptor());
+  }
+  {{#apiInfo}}{{#apis}}
+  {{classname}} get{{classname}}() {
+    return {{classname}}(dio{{#useBuiltValue}}, serializers{{/useBuiltValue}});
+  }{{/apis}}{{/apiInfo}}
+}
+
+class {{clientName}}Interceptor implements Interceptor {
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    handler.next(err);
+  }
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    options.validateStatus = (it) => true;
+    handler.next(options);
+  }
+
+  @override
+  void onResponse(
+      Response<dynamic> response, ResponseInterceptorHandler handler) {
+    handler.next(response);
+  }
+}

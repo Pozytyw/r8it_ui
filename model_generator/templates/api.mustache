@@ -1,0 +1,62 @@
+{{>header}}
+import 'dart:async';
+
+{{#includeLibraryTemplate}}api/imports{{/includeLibraryTemplate}}
+import 'package:dio/dio.dart';
+
+{{#operations}}
+{{#imports}}import '{{.}}';
+{{/imports}}
+
+class {{classname}} {
+
+  final Dio _dio;
+
+{{#includeLibraryTemplate}}api/constructor{{/includeLibraryTemplate}}{{#operation}}
+
+  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
+  /// {{notes}}
+  ///
+  /// Parameters:
+  {{#allParams}}
+  /// * [{{paramName}}] {{#description}}- {{{.}}}{{/description}}
+  {{/allParams}}
+  ///
+  /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
+  /// Throws [ServiceException] if API call or serialization fails
+  Future<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}required {{{dataType}}} {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}}{{^isContainer}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isContainer}},{{/isHeaderParam}}{{#isBodyParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isBodyParam}}{{#isFormParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}required {{/isNullable}}{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isFormParam}}{{/allParams}}
+  }) async {
+    final path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
+    final options = Options(
+      method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',{{#hasConsumes}}
+      contentType: '{{#prioritizedContentTypes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/prioritizedContentTypes}}',{{/hasConsumes}}
+    );
+
+    Map<String, dynamic>? queryParameters;
+    {{#hasQueryParams}}
+    queryParameters = {
+      {{#queryParams}}
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}},
+      {{/queryParams}}
+    };
+    {{/hasQueryParams}}
+
+    dynamic bodyData;{{#bodyParam}}
+    bodyData=encodeRequest({{{paramName}}});
+    {{/bodyParam}}
+
+    final response = await _dio.request<Object>(
+      path,
+      data: bodyData,
+      queryParameters: queryParameters,
+      options: options
+    );
+    {{#returnType}}return decodeResponse(response, {{{returnType}}}.fromJson);{{/returnType}}{{^returnType}}
+    return errorCheck(response);{{/returnType}}
+  }{{/operation}}
+}{{/operations}}
