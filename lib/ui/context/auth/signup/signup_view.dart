@@ -2,24 +2,26 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/ui/app_router.dart';
+import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/error.dart';
 import 'package:r8it/ui/widget/form/single_text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/page.dart';
 
-class SignupForm {
-  Function(BuildContext) submitCallback;
-  TextEditingController phoneEditingController = TextEditingController();
-  String? phoneValidationMessage;
-  TextEditingController emailEditingController = TextEditingController();
-  String? emailValidationMessage;
-  TextEditingController usernameEditingController = TextEditingController();
-  String? usernameValidationMessage;
-  TextEditingController passwordEditingController = TextEditingController();
-  String? passwordValidationMessage;
-  String? globalErrorMessage;
+class SignupForm extends AppForm {
+  final TextEditingController _emailEditingController = TextEditingController();
+  final TextEditingController _usernameEditingController =
+      TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
 
-  SignupForm(this.submitCallback);
+  SignupForm(FormSubmitCallback submitCallback) : super(submitCallback);
+
+  String get password => _passwordEditingController.text;
+
+  String get username => _usernameEditingController.text;
+
+  String get email => _emailEditingController.text;
 }
 
 class SignupView extends StatelessWidget {
@@ -40,27 +42,22 @@ class SignupView extends StatelessWidget {
           Text(l10n.registerMessage, style: theme.textTheme.titleSmall),
           const SizedBox(height: 64),
           SingleTextField(
-            controller: _signupForm.phoneEditingController,
-            label: Text(l10n.phoneFieldLabel),
-            errorMessage: _signupForm.phoneValidationMessage,
-          ),
-          SingleTextField(
-            controller: _signupForm.emailEditingController,
+            controller: _signupForm._emailEditingController,
             label: Text(l10n.emailFieldLabel),
-            errorMessage: _signupForm.emailValidationMessage,
+            errorMessage: _signupForm.errorMessage('email', l10n),
           ),
           SingleTextField(
-            controller: _signupForm.usernameEditingController,
+            controller: _signupForm._usernameEditingController,
             label: Text(l10n.usernameFieldLabel),
-            errorMessage: _signupForm.emailValidationMessage,
+            errorMessage: _signupForm.errorMessage('username', l10n),
           ),
           SingleTextField(
-            controller: _signupForm.passwordEditingController,
+            controller: _signupForm._passwordEditingController,
             password: true,
             label: Text(l10n.passwordFieldLabel),
-            errorMessage: _signupForm.passwordValidationMessage,
+            errorMessage: _signupForm.errorMessage('password', l10n),
           ),
-          ErrorMessageWidget(_signupForm.globalErrorMessage),
+          ErrorMessageWidget(_signupForm.globalErrorMessage(l10n)),
           const Spacer(),
           FilledButton(
             onPressed: () => _signupForm.submitCallback(context),

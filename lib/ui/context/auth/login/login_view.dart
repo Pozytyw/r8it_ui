@@ -15,6 +15,7 @@ class LoginForm extends AppForm {
   LoginForm(FormSubmitCallback submitCallback) : super(submitCallback);
 
   String get email => _emailController.text;
+
   String get password => _passwordController.text;
 }
 

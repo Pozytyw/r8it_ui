@@ -26,8 +26,8 @@ class _LoginPageState extends State<LoginPage> {
     var request = LoginRequest(email: _form.email, password: _form.password);
     return RitRepository.instance()
         .login(request)
-        .onError(_handleServiceException)
-        .then((args) => AppRouter.goHomePage(context));
+        .then((args) => AppRouter.goHomePage(context))
+        .onError(_handleServiceException);
   }
 
   void _handleServiceException(error, stackTrace) {

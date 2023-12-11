@@ -2,23 +2,27 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/ui/app_router.dart';
+import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/error.dart';
 import 'package:r8it/ui/widget/form/otp_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/page.dart';
 
-class SignupOtpForm {
+class SignupOtpForm extends AppForm {
   String? recipient;
-  final Function(BuildContext context, String otpValue) submitCallback;
-  String? globalErrorMessage;
+  String? _otp;
 
-  SignupOtpForm(this.submitCallback);
+  SignupOtpForm(FormSubmitCallback submitCallback) : super(submitCallback);
+
+  String get email => recipient!;
+
+  String get otp => _otp!;
 }
 
 class SignupOtpView extends StatefulWidget {
-  final SignupOtpForm _signupForm;
+  final SignupOtpForm _otpForm;
 
-  const SignupOtpView(this._signupForm, {super.key});
+  const SignupOtpView(this._otpForm, {super.key});
 
   @override
   State<SignupOtpView> createState() => _SignupOtpViewState();
@@ -39,14 +43,14 @@ class _SignupOtpViewState extends State<SignupOtpView> {
           Text(l10n.registerOtpWelcomeMessage,
               style: theme.textTheme.titleLarge),
           Text(
-            l10n.registerOtpMessage(widget._signupForm.recipient ?? ''),
+            l10n.registerOtpMessage(widget._otpForm.recipient ?? ''),
             style: theme.textTheme.titleSmall,
             textAlign: TextAlign.center,
           ),
           const Spacer(),
           OtpField((v) => onOtpSubmit(context, v)),
           const Spacer(),
-          ErrorMessageWidget(widget._signupForm.globalErrorMessage),
+          ErrorMessageWidget(widget._otpForm.globalErrorMessage(l10n)),
           const Spacer(),
           FilledButton(
             onPressed: () => onSubmit(context),
@@ -97,6 +101,7 @@ class _SignupOtpViewState extends State<SignupOtpView> {
     if (otpValue?.isEmpty ?? true) {
       return;
     }
-    widget._signupForm.submitCallback(context, otpValue!);
+    widget._otpForm._otp = otpValue;
+    widget._otpForm.submitCallback(context);
   }
 }

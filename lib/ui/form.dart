@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/exception/service_exception.dart';
 
+typedef FormSubmitCallback = Future Function(BuildContext);
+
 abstract class AppForm {
   final FormSubmitCallback submitCallback;
   ServiceException? lastError;
@@ -33,6 +35,3 @@ abstract class AppForm {
     return lastError?.fieldConstraintViolation?[fieldName];
   }
 }
-
-typedef FormSubmitCallback = Future Function(BuildContext);
-typedef ServiceExceptionHandler = void Function(ServiceException);
