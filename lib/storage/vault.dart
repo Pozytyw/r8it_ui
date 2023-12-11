@@ -15,6 +15,10 @@ class Vault {
     return value != null && value.isNotEmpty;
   }
 
+  String? getAuthToken() {
+    return _storage.getString(_tokenKey);
+  }
+
   Future<bool> setAuthToken(String value) {
     return _storage.setString(_tokenKey, value);
   }

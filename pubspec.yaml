@@ -20,6 +20,8 @@ dependencies:
   flutter_bloc: ^8.0.0
   dio: ^5.3.3
   json_annotation: ^4.8.1
+  rit_client:
+    path: rit_client
 
 dev_dependencies:
   flutter_test:

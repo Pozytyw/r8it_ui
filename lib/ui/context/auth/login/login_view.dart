@@ -7,7 +7,7 @@ import 'package:r8it/ui/widget/form/single_text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/page.dart';
 
-class LoginForm {
+class LoginFormController {
   final Function(BuildContext) submitCallback;
   TextEditingController emailEditingController = TextEditingController();
   String? emailValidationMessage;
@@ -15,11 +15,11 @@ class LoginForm {
   String? passwordValidationMessage;
   String? globalErrorMessage;
 
-  LoginForm(this.submitCallback);
+  LoginFormController(this.submitCallback);
 }
 
 class LoginView extends StatelessWidget {
-  final LoginForm _loginForm;
+  final LoginFormController _loginForm;
 
   const LoginView(this._loginForm, {super.key});
 
