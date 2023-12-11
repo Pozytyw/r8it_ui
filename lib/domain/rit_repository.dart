@@ -15,9 +15,7 @@ class RitRepository {
   }
 
   Future<User> userInfo() async {
-    return _authorized().then((args) {
-      return client.userInfo();
-    });
+    return _authorized().then((it) => client.userInfo());
   }
 
   Future<void> _authorized() async {

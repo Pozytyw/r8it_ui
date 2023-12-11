@@ -2,24 +2,24 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/ui/app_router.dart';
+import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/error.dart';
 import 'package:r8it/ui/widget/form/single_text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/page.dart';
 
-class LoginFormController {
-  final Function(BuildContext) submitCallback;
-  TextEditingController emailEditingController = TextEditingController();
-  String? emailValidationMessage;
-  TextEditingController passwordEditingController = TextEditingController();
-  String? passwordValidationMessage;
-  String? globalErrorMessage;
+class LoginForm extends AppForm {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  LoginFormController(this.submitCallback);
+  LoginForm(FormSubmitCallback submitCallback) : super(submitCallback);
+
+  String get email => _emailController.text;
+  String get password => _passwordController.text;
 }
 
 class LoginView extends StatelessWidget {
-  final LoginFormController _loginForm;
+  final LoginForm _loginForm;
 
   const LoginView(this._loginForm, {super.key});
 
@@ -36,17 +36,17 @@ class LoginView extends StatelessWidget {
           Text(l10n.loginMessage, style: theme.textTheme.titleSmall),
           const SizedBox(height: 64),
           SingleTextField(
-            controller: _loginForm.emailEditingController,
+            controller: _loginForm._emailController,
             label: Text(l10n.emailFieldLabel),
-            errorMessage: _loginForm.emailValidationMessage,
+            errorMessage: _loginForm.errorMessage('email', l10n),
           ),
           SingleTextField(
-            controller: _loginForm.passwordEditingController,
+            controller: _loginForm._passwordController,
             password: true,
             label: Text(l10n.passwordFieldLabel),
-            errorMessage: _loginForm.passwordValidationMessage,
+            errorMessage: _loginForm.errorMessage('password', l10n),
           ),
-          ErrorMessageWidget(_loginForm.globalErrorMessage),
+          ErrorMessageWidget(_loginForm.globalErrorMessage(l10n)),
           // todo: implement forget button
           // Align(
           //   alignment: Alignment.centerRight,
