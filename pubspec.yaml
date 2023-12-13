@@ -31,12 +31,14 @@ dev_dependencies:
   json_serializable: ^6.7.1
 
 flutter:
+  assets:
+    - assets/images/
   fonts:
     - family: Montserrat
       fonts:
-        - asset: fonts/Montserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
     - family: Montserrat-Thin
       fonts:
-        - asset: fonts/Montserrat-Thin.ttf
+        - asset: assets/fonts/Montserrat-Thin.ttf
   generate: true
   uses-material-design: true
