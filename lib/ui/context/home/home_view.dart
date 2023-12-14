@@ -1,11 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import '../../app_router.dart';
-
-const test_text =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+import 'package:r8it/ui/widget/app_page.dart';
+import 'package:r8it/ui/widget/placeholder.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,46 +11,13 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    return Scaffold(
-      bottomNavigationBar: Theme(
-        data: theme,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: 0,
-          onTap: (x) {},
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'aaa',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.navigation_outlined),
-              label: 'aaa',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_outlined),
-              label: 'aaa',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outlined),
-              label: 'aaa',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_outlined),
-              label: 'aaa',
-            ),
-          ],
-        ),
-      ),
+    return AppPage(
       body: CustomScrollView(
         slivers: [
           searchAppBar(context),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => RateWidgetXXX(),
+                  (context, index) => RateWidgetXXX(),
               childCount: 5,
             ),
           )
@@ -121,7 +85,7 @@ class RateWidgetXXX extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 width: 48,
                 height: 48,
-                child: person(),
+                child: PlaceholderTestFactory.personProfile(),
               ),
               spacer,
               Text('First name'),
@@ -131,7 +95,7 @@ class RateWidgetXXX extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: image(),
+              child: PlaceholderTestFactory.image(),
             ),
           ],
         ),
@@ -157,7 +121,7 @@ class RateWidgetXXX extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  text: test_text,
+                  text: PlaceholderTestFactory.testText,
                   style: theme.textTheme.bodyMedium,
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => debugPrint('aaa'),
@@ -176,23 +140,9 @@ class RateWidgetXXX extends StatelessWidget {
     );
   }
 
-  Widget person() {
-    return ClipRRect(
-      child: Image.asset(
-        'assets/images/person.jpg',
-        fit: BoxFit.fitHeight,
-      ),
-    );
-  }
 
-  Widget image() {
-    return ClipRRect(
-      child: Image.asset(
-        'assets/images/coffe.jpg',
-        fit: BoxFit.fitWidth,
-      ),
-    );
-  }
+
+
 }
 
 class Xxx extends StatelessWidget implements PreferredSizeWidget {

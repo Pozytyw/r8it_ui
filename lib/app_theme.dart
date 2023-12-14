@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 abstract class ColorPalette {
   Color get background;
+
   Color get onSurface;
+
   Color get white;
+
   Color get primaryColor;
+
   Color get onPrimaryColor;
+  Color get gray;
 }
 
 class DarkColorPalette implements ColorPalette {
@@ -24,6 +29,8 @@ class DarkColorPalette implements ColorPalette {
   final Color primaryColor = _fontColor;
   @override
   final Color onPrimaryColor = _background;
+  @override
+  final Color gray = _gray;
 }
 
 class LightColorPalette implements ColorPalette {
@@ -42,6 +49,8 @@ class LightColorPalette implements ColorPalette {
   final Color primaryColor = _fontColor;
   @override
   final Color onPrimaryColor = _background;
+  @override
+  final Color gray = _gray;
 }
 
 final Color _success = Color(0xff107670);
@@ -65,26 +74,32 @@ class AppThemeData {
     return themeData.copyWith(
       textTheme: themeData.textTheme
           .copyWith(
-        headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-        titleLarge: themeData.textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-        bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-        labelLarge: themeData.textTheme.labelLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-      )
+            headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            titleLarge: themeData.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            labelLarge: themeData.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          )
           .apply(
-        fontFamily: 'Montserrat',
-        displayColor: palette.white,
-        bodyColor: palette.white,
-        // decoration: white,
-        decorationColor: palette.onPrimaryColor,
-        // decorationStyle: white,
+            fontFamily: 'Montserrat',
+            displayColor: palette.white,
+            bodyColor: palette.white,
+            // decoration: white,
+            decorationColor: palette.onPrimaryColor,
+            // decorationStyle: white,
+          ),
+      bottomNavigationBarTheme: themeData.bottomNavigationBarTheme.copyWith(
+        elevation: 0,
+        backgroundColor: palette.onSurface,
+        selectedItemColor: palette.primaryColor,
+        unselectedItemColor: palette.gray
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -95,13 +110,13 @@ class AppThemeData {
         ),
       ),
       buttonTheme: themeData.buttonTheme.copyWith(
-        // buttonColor: Colors.red,
-        // disabledColor: Colors.red,
-        // focusColor: Colors.red,
-        // hoverColor: Colors.red,
-        // highlightColor: Colors.red,
-        // splashColor: Colors.red,
-      ),
+          // buttonColor: Colors.red,
+          // disabledColor: Colors.red,
+          // focusColor: Colors.red,
+          // hoverColor: Colors.red,
+          // highlightColor: Colors.red,
+          // splashColor: Colors.red,
+          ),
       // elevatedButtonTheme: ElevatedButtonThemeData(
       //   style: ElevatedButton.styleFrom(
       // backgroundColor: Colors.red,
