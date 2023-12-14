@@ -4,6 +4,7 @@ import 'package:r8it/storage/vault.dart';
 import 'package:r8it/ui/context/auth/login/login_page.dart';
 import 'package:r8it/ui/context/auth/signup/signup_page.dart';
 import 'package:r8it/ui/context/home/home_view.dart';
+import 'package:r8it/ui/context/profile/profile_view.dart';
 
 class AppRouter {
   static const _homePageName = 'homePage';
@@ -38,7 +39,7 @@ class AppRouter {
       GoRoute(
         name: _profilePageName,
         path: '/profile',
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => const ProfileView(),
         redirect: (context, state) => authCheck(),
       ),
       GoRoute(
