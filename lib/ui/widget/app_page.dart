@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:r8it/ui/app_router.dart';
 
 class AppPage extends StatelessWidget {
-  final EdgeInsets bodyPadding;
   final Widget? body;
 
   const AppPage({
     super.key,
     this.body,
-    this.bodyPadding = const EdgeInsets.all(8.0),
   });
 
   @override
@@ -47,10 +45,7 @@ class AppPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: bodyPadding,
-        child: body,
-      ),
+      body: body,
     );
   }
   void _navigationBarOnTap(int index, BuildContext context) {

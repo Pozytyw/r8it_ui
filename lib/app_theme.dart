@@ -13,11 +13,14 @@ abstract class ColorPalette {
   Color get gray;
 }
 
+final Color _success = Color(0xff107670);
+final Color _error = Color(0xfffe645a);
+final Color _gray = Color(0xff545454);
+
 class DarkColorPalette implements ColorPalette {
   static final Color _fontColor = Color(0xfff4f5f8);
   static final Color _background = Color(0xff101223);
   static final Color _secondaryColor = Color(0xff0e265e);
-  static final Color _gray = Color(0xff545454);
 
   @override
   final Color background = _background;
@@ -37,7 +40,6 @@ class LightColorPalette implements ColorPalette {
   static final Color _fontColor = Color(0xff101223);
   static final Color _background = Color(0xfff4f5f8);
   static final Color _secondaryColor = Color(0xffd2d4da);
-  static final Color _gray = Color(0xff545454);
 
   @override
   final Color background = _background;
@@ -53,12 +55,13 @@ class LightColorPalette implements ColorPalette {
   final Color gray = _gray;
 }
 
-final Color _success = Color(0xff107670);
-final Color _error = Color(0xfffe645a);
-
 extension ColorSchemeExtension on ColorScheme {
   Color get success {
     return _success;
+  }
+
+  Color get gray {
+    return _gray;
   }
 }
 
@@ -75,16 +78,16 @@ class AppThemeData {
       textTheme: themeData.textTheme
           .copyWith(
             headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
             titleLarge: themeData.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
             bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
             labelLarge: themeData.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w800,
             ),
           )
           .apply(
