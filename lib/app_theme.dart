@@ -11,13 +11,13 @@ abstract class ColorPalette {
 class DarkColorPalette implements ColorPalette {
   static final Color _fontColor = Color(0xfff4f5f8);
   static final Color _background = Color(0xff101223);
-  static final Color _navigatorBar = Color(0xff0e265e);
+  static final Color _secondaryColor = Color(0xff0e265e);
   static final Color _gray = Color(0xff545454);
 
   @override
   final Color background = _background;
   @override
-  final Color onSurface = _navigatorBar;
+  final Color onSurface = _secondaryColor;
   @override
   final Color white = _fontColor;
   @override
@@ -29,13 +29,13 @@ class DarkColorPalette implements ColorPalette {
 class LightColorPalette implements ColorPalette {
   static final Color _fontColor = Color(0xff101223);
   static final Color _background = Color(0xfff4f5f8);
-  static final Color _navigatorBar = Color(0xffd2d4da);
+  static final Color _secondaryColor = Color(0xffd2d4da);
   static final Color _gray = Color(0xff545454);
 
   @override
   final Color background = _background;
   @override
-  final Color onSurface = _navigatorBar;
+  final Color onSurface = _secondaryColor;
   @override
   final Color white = _fontColor;
   @override

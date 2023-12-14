@@ -15,10 +15,10 @@
   "registerOtpWelcomeMessage": "Get Started",
   "registerOtpMessage": "Please enter the 6-digit code sent to\n{recipient}\nfor verification.",
 
-  "verifyButton": "Verify",
-  "nextButton": "Next",
+  "verifyButton": "VERIFY",
+  "nextButton": "NEXT",
   "passwordFieldLabel": "Password",
   "phoneFieldLabel": "Enter your phone number",
-  "emailFieldLabel": "Email",
+  "emailFieldLabel": "Enter your Email",
   "usernameFieldLabel": "How to call you?"
 }

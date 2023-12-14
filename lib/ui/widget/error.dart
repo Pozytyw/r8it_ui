@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:r8it/ui/widget/style_factory.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
   final String? _message;
@@ -11,12 +10,14 @@ class ErrorMessageWidget extends StatelessWidget {
     if (_message == null) {
       return SizedBox.fromSize(size: Size.zero);
     }
-
-    var styleFactory = TextStyleFactory(context);
+    var theme = Theme.of(context);
+    var style = theme.textTheme.bodyMedium?.copyWith(
+      color: theme.colorScheme.error,
+    );
     return Center(
       child: SelectableText(
         _message!,
-        style: styleFactory.getErrorTextTheme(),
+        style: style,
         textAlign: TextAlign.center,
       ),
     );

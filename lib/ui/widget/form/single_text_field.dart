@@ -6,13 +6,12 @@ class SingleTextField extends StatelessWidget {
   final Widget? label;
   final bool password;
 
-  const SingleTextField({
-    super.key,
-    this.controller,
-    this.errorMessage,
-    this.label,
-    this.password = false
-  });
+  const SingleTextField(
+      {super.key,
+      this.controller,
+      this.errorMessage,
+      this.label,
+      this.password = false});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,17 @@ class SingleTextField extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-              color: colorScheme.onSurface,
-              borderRadius: BorderRadius.circular(8)),
+            color: colorScheme.onSurface,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.shadow.withOpacity(0.25),
+                spreadRadius: 0,
+                blurRadius: 4,
+                offset: Offset(0, 4), // changes position of shadow
+              ),
+            ],
+          ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
             child: TextField(
@@ -35,6 +43,7 @@ class SingleTextField extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 label: label,
+                labelStyle: theme.textTheme.bodyMedium
               ),
             ),
           ),

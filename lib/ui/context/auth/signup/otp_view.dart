@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/ui/app_router.dart';
+import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/error.dart';
 import 'package:r8it/ui/widget/form/otp_field.dart';
 import 'package:r8it/ui/widget/label.dart';
-import 'package:r8it/ui/widget/page.dart';
 
 class SignupOtpForm extends AppForm {
   String? recipient;
@@ -29,6 +29,7 @@ class SignupOtpView extends StatefulWidget {
 }
 
 class _SignupOtpViewState extends State<SignupOtpView> {
+  static const Widget spacer = SizedBox(height: 25);
   String? otpValue;
 
   @override
@@ -36,37 +37,28 @@ class _SignupOtpViewState extends State<SignupOtpView> {
     var l10n = AppLocalizations.of(context);
     var theme = Theme.of(context);
     var colorScheme = theme.colorScheme;
-    return AppPage(
+    return AuthPage(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(l10n.registerOtpWelcomeMessage,
-              style: theme.textTheme.titleLarge),
-          Text(
-            l10n.registerOtpMessage(widget._otpForm.recipient ?? ''),
-            style: theme.textTheme.titleSmall,
-            textAlign: TextAlign.center,
-          ),
-          const Spacer(),
+          TitleText(l10n.registerOtpWelcomeMessage),
+          SubTitleText(l10n.registerOtpMessage(widget._otpForm.email)),
+          spacer,
           OtpField((v) => onOtpSubmit(context, v)),
-          const Spacer(),
           ErrorMessageWidget(widget._otpForm.globalErrorMessage(l10n)),
           const Spacer(),
           FilledButton(
             onPressed: () => onSubmit(context),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: IconLabel(
-                label: Text(
-                  l10n.verifyButton,
-                  style: theme.textTheme.bodyLarge,
-                ),
+                label: Text(l10n.verifyButton),
                 icon: const Icon(Icons.arrow_forward_ios_rounded),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Center(
               child: RichText(
                 text: TextSpan(
@@ -75,10 +67,7 @@ class _SignupOtpViewState extends State<SignupOtpView> {
                   children: [
                     TextSpan(
                       text: l10n.loginLink,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.primary,
-                      ),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () => AppRouter.goLoginPageName(context),
                     ),
