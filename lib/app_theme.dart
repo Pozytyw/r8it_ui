@@ -1,15 +1,56 @@
 import 'package:flutter/material.dart';
 
-const Color _background = Color(0xff151d3d);
-const Color _onSurface = Color(0xff1c2755);
-const Color _primaryColor = Color(0xff3658D7);
-const Color _white = Color(0xffffffff);
-const Color _success = Color(0xff107670);
-const Color _error = Color(0xfffe645a);
+abstract class ColorPalette {
+  Color get background;
+  Color get onSurface;
+  Color get white;
+  Color get primaryColor;
+  Color get onPrimaryColor;
+}
 
+class DarkColorPalette implements ColorPalette {
+  static final Color _fontColor = Color(0xfff4f5f8);
+  static final Color _background = Color(0xff101223);
+  static final Color _navigatorBar = Color(0xff0e265e);
+  static final Color _gray = Color(0xff545454);
+
+  @override
+  final Color background = _background;
+  @override
+  final Color onSurface = _navigatorBar;
+  @override
+  final Color white = _fontColor;
+  @override
+  final Color primaryColor = _fontColor;
+  @override
+  final Color onPrimaryColor = _background;
+}
+
+class LightColorPalette implements ColorPalette {
+  static final Color _fontColor = Color(0xff101223);
+  static final Color _background = Color(0xfff4f5f8);
+  static final Color _navigatorBar = Color(0xffd2d4da);
+  static final Color _gray = Color(0xff545454);
+
+  @override
+  final Color background = _background;
+  @override
+  final Color onSurface = _navigatorBar;
+  @override
+  final Color white = _fontColor;
+  @override
+  final Color primaryColor = _fontColor;
+  @override
+  final Color onPrimaryColor = _background;
+}
+
+final Color _success = Color(0xff107670);
+final Color _error = Color(0xfffe645a);
 
 extension ColorSchemeExtension on ColorScheme {
-  Color get success  => _success;
+  Color get success {
+    return _success;
+  }
 }
 
 class AppThemeData {
@@ -18,31 +59,33 @@ class AppThemeData {
   ThemeData get themeData => _themeData;
 
   static ThemeData themeDataInit() {
-    var themeData = ThemeData.dark(useMaterial3: true);
+    var themeData = ThemeData.light(useMaterial3: true);
+    var palette = LightColorPalette();
+
     return themeData.copyWith(
       textTheme: themeData.textTheme
           .copyWith(
-            headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            titleLarge: themeData.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-            labelLarge: themeData.textTheme.labelLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          )
+        headlineLarge: themeData.textTheme.headlineLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        titleLarge: themeData.textTheme.titleLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        bodyLarge: themeData.textTheme.bodyLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+        labelLarge: themeData.textTheme.labelLarge?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
+      )
           .apply(
-            fontFamily: 'Montserrat',
-            displayColor: _white,
-            bodyColor: _white,
-            // decoration: white,
-            decorationColor: _white,
-            // decorationStyle: white,
-          ),
+        fontFamily: 'Montserrat',
+        displayColor: palette.white,
+        bodyColor: palette.white,
+        // decoration: white,
+        decorationColor: palette.onPrimaryColor,
+        // decorationStyle: white,
+      ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           maximumSize: Size.infinite,
@@ -52,19 +95,19 @@ class AppThemeData {
         ),
       ),
       buttonTheme: themeData.buttonTheme.copyWith(
-          // buttonColor: Colors.red,
-          // disabledColor: Colors.red,
-          // focusColor: Colors.red,
-          // hoverColor: Colors.red,
-          // highlightColor: Colors.red,
-          // splashColor: Colors.red,
-          ),
+        // buttonColor: Colors.red,
+        // disabledColor: Colors.red,
+        // focusColor: Colors.red,
+        // hoverColor: Colors.red,
+        // highlightColor: Colors.red,
+        // splashColor: Colors.red,
+      ),
       // elevatedButtonTheme: ElevatedButtonThemeData(
       //   style: ElevatedButton.styleFrom(
       // backgroundColor: Colors.red,
       // ),
       // ),
-      canvasColor: _primaryColor,
+      canvasColor: palette.primaryColor,
       // cardColor: Colors.red,
       // dialogBackgroundColor: Colors.red,
       // disabledColor: Colors.red,
@@ -77,16 +120,16 @@ class AppThemeData {
       // primaryColor: primaryColor,
       // primaryColorDark: Colors.red,
       // primaryColorLight: Colors.red,
-      scaffoldBackgroundColor: _background,
+      scaffoldBackgroundColor: palette.background,
       // secondaryHeaderColor: Colors.red,
       // shadowColor: Colors.red,
       // splashColor: Colors.red,
       // unselectedWidgetColor: Colors.red,
       colorScheme: themeData.colorScheme.copyWith(
-        primary: _primaryColor,
-        onPrimary: _white,
+        primary: palette.primaryColor,
+        onPrimary: palette.onPrimaryColor,
         // primaryContainer: Colors.red,
-        onPrimaryContainer: _white,
+        onPrimaryContainer: palette.onPrimaryColor,
         // secondary: Colors.red,
         // onSecondary: Colors.red,
         // secondaryContainer: Colors.red,
@@ -101,10 +144,10 @@ class AppThemeData {
         // onErrorContainer: Colors.red,
         // background: Colors.red,
         // onBackground: Colors.red,
-        surface: _background,
-        onSurface: _onSurface,
+        surface: palette.background,
+        onSurface: palette.onSurface,
         // surfaceVariant: Colors.red,
-        onSurfaceVariant: _white,
+        onSurfaceVariant: palette.white,
         // outline: Colors.red,
         // outlineVariant: Colors.red,
         // shadow: Colors.red,

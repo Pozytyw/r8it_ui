@@ -1,6 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:r8it/ui/widget/refreshable.dart';
+
+import '../../app_router.dart';
+
+const test_text =
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -9,175 +14,81 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
     var theme = Theme.of(context);
-    var colorScheme = theme.colorScheme;
-
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: searchAppBar(context),
-      body: RefreshableWidget(
-        onRefresh: Future.value,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ww(context),
-              spacer,
-              ww(context),
-              spacer,
-              ww(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget ww(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
-    var theme = Theme.of(context);
-    var colorScheme = theme.colorScheme;
-    var style = theme.textTheme.bodyLarge;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: colorScheme.onSurface,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Icon(Icons.my_location, size: 16),
-                spacer,
-                Text('location name')
-              ],
+      bottomNavigationBar: Theme(
+        data: theme,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          currentIndex: 0,
+          onTap: (x) {},
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: 'aaa',
             ),
-            spacer,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: colorScheme.onSecondary,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      width: 48,
-                      height: 48,
-                    ),
-                    spacer,
-                    Text('First name'),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: colorScheme.onSecondary,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  width: 48,
-                  height: 48,
-                  alignment: Alignment.center,
-                  child: Text(
-                    '7',
-                    style: style,
-                  ),
-                )
-              ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.navigation_outlined),
+              label: 'aaa',
             ),
-            spacer,
-            Row(
-              children: [
-                Expanded(
-                  child: image(),
-                ),
-              ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add_outlined),
+              label: 'aaa',
             ),
-            spacer,
-            Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
-            spacer,
-            Row(children: [
-              Text('#food'),
-            ]),
-            spacer,
-            Row(children: [
-              Text('04:55 PM'),
-              Text('23/10/2023'),
-            ]),
-            spacer,
-            Row(
-              children: [
-                Icon(Icons.message),
-                Icon(Icons.share),
-              ],
-            )
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outlined),
+              label: 'aaa',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_outlined),
+              label: 'aaa',
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget image() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.asset(
-        'assets/images/coffe.jpg',
-        fit: BoxFit.fitWidth,
+      body: CustomScrollView(
+        slivers: [
+          searchAppBar(context),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => RateWidgetXXX(),
+              childCount: 5,
+            ),
+          )
+        ],
       ),
     );
   }
 
-  PreferredSizeWidget searchAppBar(BuildContext context) {
+  SliverAppBar searchAppBar(BuildContext context) {
     var l10n = AppLocalizations.of(context);
     var theme = Theme.of(context);
     var colorScheme = theme.colorScheme;
     var style = theme.textTheme.titleLarge;
     var bottom = Xxx();
-    return AppBar(
-      toolbarHeight: bottom.preferredSize.height + 32,
-      titleSpacing: 16,
-      title: FilledButton(
-        style: FilledButton.styleFrom(
-          textStyle: style,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
-        onPressed: () {},
-        child: Row(
-          children: [
-            Icon(
-              Icons.search_outlined,
-              color: style?.color,
-            ),
-            spacer,
-            Text('Search'),
-          ],
-        ),
-      ),
-      // title: TextField(
-      //   decoration: InputDecoration(
-      //     contentPadding: EdgeInsets.symmetric(horizontal: 16),
-      //     floatingLabelBehavior: FloatingLabelBehavior.never,
-      //     border: OutlineInputBorder(
-      //       borderSide: BorderSide.none,
+    return SliverAppBar(
+      toolbarHeight: 0,
+      titleSpacing: 4,
+      // title: FilledButton(
+      //   style: FilledButton.styleFrom(
+      //     textStyle: style,
+      //     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      //     shape: RoundedRectangleBorder(
       //       borderRadius: BorderRadius.circular(50),
       //     ),
-      //     filled: true,
-      //     label: Row(
-      //       children: [
-      //         Icon(Icons.search_outlined, color: style?.color,),
-      //         spacer,
-      //         Text('Search'),
-      //       ],
-      //     ),
+      //   ),
+      //   onPressed: () {},
+      //   child: Row(
+      //     children: [
+      //       Icon(
+      //         Icons.search_outlined,
+      //         color: style?.color,
+      //       ),
+      //       spacer,
+      //       Text('Search'),
+      //     ],
       //   ),
       // ),
       flexibleSpace: const SizedBox.shrink(),
@@ -186,14 +97,112 @@ class HomeView extends StatelessWidget {
   }
 }
 
+class RateWidgetXXX extends StatelessWidget {
+  static final spacer = SizedBox.fromSize(size: const Size(8, 8));
+
+  @override
+  Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context);
+    var theme = Theme.of(context);
+    var colorScheme = theme.colorScheme;
+    var style = theme.textTheme.bodySmall;
+    var graySmall = theme.textTheme.labelSmall?.copyWith(color: Colors.grey);
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: colorScheme.onSecondary,
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                clipBehavior: Clip.hardEdge,
+                width: 48,
+                height: 48,
+                child: person(),
+              ),
+              spacer,
+              Text('First name'),
+            ],
+          ),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: image(),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.my_location,
+                    size: 12,
+                  ),
+                  spacer,
+                  Text(
+                    'TOCIEKAWA',
+                    style: style,
+                  )
+                ],
+              ),
+              spacer,
+              RichText(
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                text: TextSpan(
+                  text: test_text,
+                  style: theme.textTheme.bodyMedium,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => debugPrint('aaa'),
+                ),
+              ),
+              spacer,
+              Row(children: [
+                Text('04:55 PM', style: graySmall),
+                Text('23/10/2023', style: graySmall),
+              ]),
+              Divider(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget person() {
+    return ClipRRect(
+      child: Image.asset(
+        'assets/images/person.jpg',
+        fit: BoxFit.fitHeight,
+      ),
+    );
+  }
+
+  Widget image() {
+    return ClipRRect(
+      child: Image.asset(
+        'assets/images/coffe.jpg',
+        fit: BoxFit.fitWidth,
+      ),
+    );
+  }
+}
+
 class Xxx extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
-    var spacer = SizedBox.fromSize(size: const Size(8, 0));
+    var spacer = SizedBox.fromSize(size: const Size(4, 0));
     return Container(
       alignment: Alignment.topLeft,
       height: preferredSize.height,
-      padding: const EdgeInsets.only(left: 16),
+      padding: const EdgeInsets.only(left: 4),
       child: Row(
         children: [
           TagWidget('Food'),
@@ -212,7 +221,7 @@ class Xxx extends StatelessWidget implements PreferredSizeWidget {
 
   /*todo: how to calculate it?*/
   @override
-  Size get preferredSize => Size.fromHeight(32);
+  Size get preferredSize => Size.fromHeight(48);
 }
 
 class TagWidget extends StatelessWidget {
@@ -226,7 +235,7 @@ class TagWidget extends StatelessWidget {
     var theme = Theme.of(context);
     var colorScheme = theme.colorScheme;
     var style = ElevatedButton.styleFrom(
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       minimumSize: const Size(0, 0),
     );
 
@@ -234,19 +243,6 @@ class TagWidget extends StatelessWidget {
       onPressed: () {},
       style: style,
       child: Text(name),
-    );
-  }
-}
-
-class TextBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: TextField(
-        decoration:
-            InputDecoration(border: InputBorder.none, hintText: 'Search'),
-      ),
     );
   }
 }
