@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:r8it/app_theme.dart';
 import 'package:r8it/ui/widget/app_page.dart';
 import 'package:r8it/ui/widget/collapsable_text.dart';
+import 'package:r8it/ui/widget/location_widget.dart';
 import 'package:r8it/ui/widget/placeholder.dart';
 
 class HomeView extends StatelessWidget {
@@ -65,24 +66,36 @@ class BottomSearchBar extends StatelessWidget implements PreferredSizeWidget {
 
 class TagWidget extends StatelessWidget {
   final String name;
+  final bool selected;
 
-  const TagWidget(this.name, {super.key});
+  const TagWidget(this.name, {this.selected = false, super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var colorSchema = theme.colorScheme;
-
+    var backgroundColor =
+        selected ? colorSchema.primary : colorSchema.onSurface;
+    var textStyle = theme.textTheme.labelLarge;
+    if (selected) {
+      textStyle = textStyle?.copyWith(
+        color: colorSchema.background,
+      );
+    }
     var style = ElevatedButton.styleFrom(
-        backgroundColor: colorSchema.onSurface,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        minimumSize: const Size(0, 0),
-        textStyle: theme.textTheme.labelLarge);
+      backgroundColor: backgroundColor,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      minimumSize: const Size(0, 0),
+      textStyle: textStyle,
+    );
 
     return ElevatedButton(
       onPressed: () {},
       style: style,
-      child: Text(name),
+      child: Text(
+        name,
+        style: textStyle,
+      ),
     );
   }
 }
@@ -118,12 +131,29 @@ class PostWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.my_location,
-                    size: 16,
+                  LocationWidget(
+                    'TOCIEKAWA',
+                    style: graySmall,
                   ),
                   const SizedBox.square(dimension: 8),
-                  Text('TOCIEKAWA', style: graySmall)
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 12,
+                          color: colorSchema.secondary,
+                        ),
+                        Transform.scale(
+                          alignment: Alignment.centerLeft,
+                          scaleX: 0.5,
+                          child: Container(
+                            height: 12,
+                            color: colorSchema.warning,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
               spacer,
@@ -134,7 +164,8 @@ class PostWidget extends StatelessWidget {
               ),
               spacer,
               Row(children: [
-                Text('04:55 PM', style: graySmall),
+                Text('10:39', style: graySmall),
+                const SizedBox.square(dimension: 8),
                 Text('23/10/2023', style: graySmall),
               ]),
               Divider(color: colorSchema.primary),

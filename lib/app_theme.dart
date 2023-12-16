@@ -16,6 +16,7 @@ abstract class ColorPalette {
 final Color _success = Color(0xff107670);
 final Color _error = Color(0xfffe645a);
 final Color _gray = Color(0xff545454);
+final Color _warning = Color(0xffc86f1d);
 
 class DarkColorPalette implements ColorPalette {
   static final Color _fontColor = Color(0xfff4f5f8);
@@ -58,6 +59,10 @@ class LightColorPalette implements ColorPalette {
 extension ColorSchemeExtension on ColorScheme {
   Color get success {
     return _success;
+  }
+
+  Color get warning {
+    return _warning;
   }
 
   Color get gray {
