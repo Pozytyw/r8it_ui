@@ -5,7 +5,7 @@ import 'package:r8it/ui/app_router.dart';
 import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/error.dart';
-import 'package:r8it/ui/widget/form/single_text_field.dart';
+import 'package:r8it/ui/widget/form/text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 
 class LoginForm extends AppForm {

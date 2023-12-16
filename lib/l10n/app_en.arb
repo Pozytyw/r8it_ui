@@ -20,5 +20,8 @@
   "passwordFieldLabel": "Password",
   "phoneFieldLabel": "Enter your phone number",
   "emailFieldLabel": "Enter your Email",
-  "usernameFieldLabel": "How to call you?"
+  "usernameFieldLabel": "How to call you?",
+
+  "rateItButton": "RateIt!",
+  "shareLocation": "Share location"
 }

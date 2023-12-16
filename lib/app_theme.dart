@@ -98,6 +98,9 @@ class AppThemeData {
             decorationColor: palette.onPrimaryColor,
             // decorationStyle: white,
           ),
+      navigationBarTheme: themeData.navigationBarTheme.copyWith(
+        height: kBottomNavigationBarHeight,
+      ),
       bottomNavigationBarTheme: themeData.bottomNavigationBarTheme.copyWith(
         elevation: 0,
         backgroundColor: palette.onSurface,

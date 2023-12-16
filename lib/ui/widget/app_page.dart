@@ -13,6 +13,10 @@ class AppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       bottomNavigationBar: Theme(
         data: theme,
         child: BottomNavigationBar(

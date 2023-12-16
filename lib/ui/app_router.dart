@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:r8it/storage/vault.dart';
+import 'package:r8it/ui/context/add/add_page.dart';
 import 'package:r8it/ui/context/auth/login/login_page.dart';
 import 'package:r8it/ui/context/auth/signup/signup_page.dart';
 import 'package:r8it/ui/context/home/home_view.dart';
@@ -33,7 +34,7 @@ class AppRouter {
       GoRoute(
         name: _addPageName,
         path: '/add_post',
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => const AddPage(),
         redirect: (context, state) => authCheck(),
       ),
       GoRoute(
@@ -92,11 +93,15 @@ class AppRouter {
   static int pageIndex(BuildContext context) {
     var name = ModalRoute.of(context)?.settings.name;
     int value = 0;
-     switch (name) {
-      case _navigationPageName: value = 1;
-      case _addPageName: value = 2;
-      case _profilePageName: value = 3;
-      case _notificationsPageName: value = 4;
+    switch (name) {
+      case _navigationPageName:
+        value = 1;
+      case _addPageName:
+        value = 2;
+      case _profilePageName:
+        value = 3;
+      case _notificationsPageName:
+        value = 4;
     }
     return value;
   }
