@@ -5,25 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:location/location.dart';
 import 'package:r8it/app_theme.dart';
+import 'package:r8it/ui/context/add/widget.dart';
 import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/app_page.dart';
+import 'package:r8it/ui/widget/conditional.dart';
 import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/location_widget.dart';
 
 class PictureWithLocationForm extends AppForm {
   String? _pathToImage;
-  LocationData? _locationData;
-  bool _locationSwitch = true;
+  final DataLocationController _locationController = DataLocationController();
 
   PictureWithLocationForm(FormSubmitCallback submitCallback)
       : super(submitCallback);
 
-  bool get locationSwitch => _locationSwitch;
+  bool get locationSwitch => _locationController.enabled;
 
-  LocationData? get locationData => _locationData;
+  LocationData? get locationData => _locationController.locationData;
 
-  String? get pathToImage => _pathToImage;
+  String? get imagePath => _pathToImage;
 }
 
 class CameraView extends StatefulWidget {
@@ -36,16 +37,13 @@ class CameraView extends StatefulWidget {
 }
 
 class _CameraViewState extends State<CameraView> {
-  final Location location = Location();
   CameraController? _controller;
   Future? _firstInitializationFuture;
-  Image? image;
+  ImageProvider? image;
 
   @override
   void initState() {
     super.initState();
-    location.getLocation()
-        .then((l) => widget._form._locationData = l);
     _firstInitializationFuture = _frontCamera()
         .then(_createController)
         .then((controller) => _controller = controller)
@@ -57,8 +55,6 @@ class _CameraViewState extends State<CameraView> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final screenSize = MediaQuery.of(context).size;
-    final previewSize = calculatePreviewSize(screenSize);
 
     return FutureBuilder(
       future: _firstInitializationFuture,
@@ -79,7 +75,10 @@ class _CameraViewState extends State<CameraView> {
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
-              _previewOrImage(),
+              ConditionalWidget(
+                condition: image == null,
+                child: CameraPreview(_controller!),
+              ),
               Column(
                 children: [
                   Container(
@@ -89,7 +88,10 @@ class _CameraViewState extends State<CameraView> {
                       child: TitleText(l10n.rateItButton),
                     ),
                   ),
-                  Container(height: previewSize.height),
+                  ImagePreview(
+                    placeholderColor: image == null ? Colors.transparent : null,
+                    image,
+                  ),
                   Expanded(
                     child: Container(
                       color: colorScheme.background,
@@ -98,10 +100,9 @@ class _CameraViewState extends State<CameraView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            LocationSelectorWidget(
+                            LocationCheckboxWidget(
                               l10n.shareLocation,
-                              selected: widget._form.locationSwitch,
-                              listener: _locationSwitchListener,
+                              controller: widget._form._locationController,
                               style: theme.textTheme.bodyLarge,
                               unSelectedColor: colorScheme.gray,
                             ),
@@ -142,13 +143,6 @@ class _CameraViewState extends State<CameraView> {
     );
   }
 
-  Widget _previewOrImage() {
-    if (image != null) {
-      return image!;
-    }
-    return CameraPreview(_controller!);
-  }
-
   Future<void> _takePicture() async {
     await _initializeControllerFuture(null);
     final file = await _controller?.takePicture();
@@ -157,28 +151,8 @@ class _CameraViewState extends State<CameraView> {
     }
     setState(() {
       widget._form._pathToImage = file.path;
-      image = Image.file(File(file.path));
+      image = FileImage(File(file.path));
     });
-  }
-
-  void _locationSwitchListener(bool selected) async {
-    setState(() {
-      widget._form._locationSwitch = selected;
-    });
-    if (selected) {
-      if (await _ensurePermission() && await _ensureServiceEnabled()) {
-        widget._form._locationData = await location.getLocation();
-      }
-    }
-  }
-
-  Future<bool> _ensurePermission() async {
-    return await location.hasPermission() == PermissionStatus.granted ||
-        await location.requestPermission() == PermissionStatus.granted;
-  }
-
-  Future<bool> _ensureServiceEnabled() async {
-    return await location.serviceEnabled() || await location.requestService();
   }
 
   Future<CameraDescription> _frontCamera() async {
@@ -196,24 +170,13 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future<void> _initializeControllerFuture(args) {
-    return _controller?.initialize() ?? Future.value();
+    return _controller?.initialize().timeout(const Duration(seconds: 10)) ??
+        Future.value();
   }
 
   @override
   void dispose() {
     _controller?.dispose();
     super.dispose();
-  }
-
-  Size calculatePreviewSize(Size screenSize) {
-    const maxRatio = 0.5;
-    var height = screenSize.height;
-    var width = screenSize.width;
-    if (width < height && width / height <= maxRatio) {
-      debugPrint('Preview by width');
-      return Size(double.infinity, width);
-    }
-    debugPrint('Static preview');
-    return const Size(300, 300);
   }
 }

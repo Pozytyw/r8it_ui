@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MultiLineTextField extends StatelessWidget {
   final TextEditingController? controller;
   final Widget? label;
+  final int maxLines;
+  final int minLines;
 
   const MultiLineTextField({
     super.key,
     this.controller,
     this.label,
+    this.maxLines = 3,
+    this.minLines = 3,
   });
 
   @override
@@ -16,8 +21,8 @@ class MultiLineTextField extends StatelessWidget {
     return _TextFieldContainer(
       child: TextField(
         controller: controller,
-        minLines: 6,
-        maxLines: 6,
+        maxLines: maxLines,
+        minLines: minLines,
         autocorrect: true,
         enableSuggestions: false,
         decoration: InputDecoration(

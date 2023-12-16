@@ -1,26 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
-class LocationSelectorWidget extends StatefulWidget {
-  final String location;
-  final Function(bool)? listener;
-  final TextStyle? style;
-  final Color unSelectedColor;
-  final bool selected;
+class LocationController {
+  bool _enabled;
 
-  const LocationSelectorWidget(
-    this.location, {
-    this.listener,
-    this.style,
-    required this.unSelectedColor,
-    this.selected = true,
-    super.key,
-  });
+  LocationController({bool enabled = false}) : _enabled = enabled;
 
-  @override
-  State<LocationSelectorWidget> createState() => _LocationSelectorWidgetState();
+  bool get enabled => _enabled;
+
+  set enabled(bool value) {
+    _enabled = value;
+  }
 }
 
-class _LocationSelectorWidgetState extends State<LocationSelectorWidget> {
+class DataLocationController extends LocationController {
+  final Location location = Location();
+  LocationData? _locationData;
+
+  DataLocationController() : super(enabled: true) {
+    tryUpdateLocationData();
+  }
+
+  @override
+  set enabled(bool value) {
+    _enabled = value;
+    if (_enabled) {
+      tryUpdateLocationData();
+    }
+  }
+
+  Future tryUpdateLocationData() async {
+    if (await _ensurePermission() && await _ensureServiceEnabled()) {
+      location.getLocation().then((l) => _locationData = l);
+    }
+  }
+
+  Future<bool> _ensurePermission() async {
+    return await location.hasPermission() == PermissionStatus.granted ||
+        await location.requestPermission() == PermissionStatus.granted;
+  }
+
+  Future<bool> _ensureServiceEnabled() async {
+    return await location.serviceEnabled() || await location.requestService();
+  }
+
+  LocationData? get locationData => _locationData;
+}
+
+class LocationCheckboxWidget extends StatefulWidget {
+  final String location;
+  final LocationController _controller;
+  final TextStyle? style;
+  final Color unSelectedColor;
+
+  LocationCheckboxWidget(
+    this.location, {
+    LocationController? controller,
+    this.style,
+    required this.unSelectedColor,
+    super.key,
+  }) : _controller = controller ?? LocationController();
+
+  @override
+  State<LocationCheckboxWidget> createState() => _LocationCheckboxWidgetState();
+}
+
+class _LocationCheckboxWidgetState extends State<LocationCheckboxWidget> {
   late final unSelectedColor =
       widget.style?.copyWith(color: widget.unSelectedColor);
 
@@ -30,13 +75,13 @@ class _LocationSelectorWidgetState extends State<LocationSelectorWidget> {
         onTap: _selectedSwitch,
         child: LocationWidget(
           widget.location,
-          style: widget.selected ? widget.style : unSelectedColor,
+          style: widget._controller.enabled ? widget.style : unSelectedColor,
         ));
   }
 
   void _selectedSwitch() {
     setState(() {
-      widget.listener?.call(!widget.selected);
+      widget._controller._enabled = !widget._controller._enabled;
     });
   }
 }
