@@ -25,5 +25,6 @@
   "rateItButton": "RateIt!",
   "shareLocation": "Share location",
   "unknownPlace": "UNKNOWN",
-  "customTag": "custom"
+  "customTag": "custom",
+  "profileWelcomeMessage": "Hi!"
 }
