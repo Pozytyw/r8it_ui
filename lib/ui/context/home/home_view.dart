@@ -1,69 +1,70 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:r8it/app_theme.dart';
+import 'package:r8it/domain/place/place.dart';
+import 'package:r8it/domain/post/post.dart';
 import 'package:r8it/ui/widget/app_page.dart';
 import 'package:r8it/ui/widget/collapsable_text.dart';
-import 'package:r8it/ui/widget/form/tag.dart';
 import 'package:r8it/ui/widget/form/location_widget.dart';
 import 'package:r8it/ui/widget/placeholder.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
 
-  static final spacer = SizedBox.fromSize(size: const Size(8, 8));
-
   @override
   Widget build(BuildContext context) {
-    return AppPage(
-      body: CustomScrollView(
-        slivers: [
-          searchAppBar(context),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => PostWidget(),
-              childCount: 5,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  SliverAppBar searchAppBar(BuildContext context) {
-    return const SliverAppBar(
-      toolbarHeight: 0,
-      titleSpacing: 4,
-      flexibleSpace: SizedBox.shrink(),
-      bottom: BottomSearchBar(),
-    );
+    return const AppPage(body: PageListWidget());
   }
 }
 
-class BottomSearchBar extends StatelessWidget implements PreferredSizeWidget {
-  const BottomSearchBar({super.key});
+
+class PageListWidget extends StatefulWidget {
+  const PageListWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topLeft,
-      height: preferredSize.height,
-      padding: const EdgeInsets.all(8),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          TagWidget('Food'),
-          TagWidget('Coffee'),
-          TagWidget('Books'),
-          TagWidget('Movies'),
-          TagWidget('...'),
-        ],
-      ),
-    );
+  State<PageListWidget> createState() => _PageListWidgetState();
+}
+
+class _PageListWidgetState extends State<PageListWidget> {
+  static const _pageSize = 20;
+
+  final PagingController<int, Post> _pagingController =
+  PagingController(firstPageKey: 0);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
   }
 
-  /*todo: how to calculate it?*/
+  Future<void> _fetchPage(int pageKey) async {
+    final posts = <Post>[
+      Post('username', Place('aaa', 'aa'), 'lorelreasdasd'),
+      Post('username', Place('aaa', 'aa'), 'lorelreasdasd'),
+    ];
+    final nextPageKey = pageKey + posts.length;
+    _pagingController.appendPage(posts, nextPageKey);
+  }
+
   @override
-  Size get preferredSize => const Size.fromHeight(48);
+  Widget build(BuildContext context) => PagedListView<int, Post>(
+    pagingController: _pagingController,
+    builderDelegate: PagedChildBuilderDelegate<Post>(
+      itemBuilder: (context, item, index) => const PostWidget(),
+    ),
+  );
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
 }
+
 
 class PostWidget extends StatelessWidget {
   static final spacer = SizedBox.fromSize(size: const Size(8, 8));
@@ -160,7 +161,7 @@ class ProfileWidget extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           width: 48,
           height: 48,
-          child: PlaceholderTestFactory.personProfile(),
+          child: const Icon(Icons.person_rounded),
         ),
         const SizedBox.square(dimension: 8),
         Text(
