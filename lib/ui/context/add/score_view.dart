@@ -7,18 +7,38 @@ import 'package:r8it/app_theme.dart';
 import 'package:r8it/ui/context/add/widget.dart';
 import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
+import 'package:r8it/ui/widget/conditional.dart';
+import 'package:r8it/ui/widget/error.dart';
 import 'package:r8it/ui/widget/form/location_widget.dart';
 import 'package:r8it/ui/widget/label.dart';
 
 class ScoreForm extends AppForm {
+  double? _score;
+
   ScoreForm(FormSubmitCallback submitCallback) : super(submitCallback);
+
+  double get score => _score!;
 }
 
-class ScoreView extends StatelessWidget {
+class ScoreView extends StatefulWidget {
   final ScoreForm _form;
   final String? imagePath;
+  final String? locationName;
 
-  const ScoreView(this._form, this.imagePath, {super.key});
+  const ScoreView(
+    this._form,
+    this.imagePath,
+    this.locationName, {
+    super.key,
+  });
+
+  @override
+  State<ScoreView> createState() => _ScoreViewState();
+}
+
+class _ScoreViewState extends State<ScoreView> {
+  double _score = 1;
+  _ScoreState _scoreState = _ScoreState.good;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +46,8 @@ class ScoreView extends StatelessWidget {
     final theme = Theme.of(context);
     final colorSchema = theme.colorScheme;
     ImageProvider? imageProvider;
-    if (imagePath != null) {
-      imageProvider = FileImage(File(imagePath!));
+    if (widget.imagePath != null) {
+      imageProvider = FileImage(File(widget.imagePath!));
     }
 
     return Column(
@@ -36,11 +56,14 @@ class ScoreView extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.all(16.0),
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: LocationWidget(
-            'TOCIEKAWA',
-            style: theme.textTheme.labelSmall
+        ConditionalWidget(
+          condition: widget.locationName?.isNotEmpty == true,
+          builder: (BuildContext context) => Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: LocationWidget(
+              widget.locationName!,
+              style: theme.textTheme.labelSmall,
+            ),
           ),
         ),
         SizedBox(
@@ -49,41 +72,60 @@ class ScoreView extends StatelessWidget {
             child: TitleText(l10n.rateItButton),
           ),
         ),
-        SizedBox.square(dimension: 32),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              imageIcon('assets/images/idk.svg'),
-              Transform.scale(scale: 1.25,child: imageIcon('assets/images/normal.svg')),
-              imageIcon('assets/images/like.svg'),
+              GestureDetector(
+                onTap: () => _setState(_ScoreState.bad),
+                child: Transform.scale(
+                  scale: _scoreState == _ScoreState.bad ? 1.25 : 1,
+                  child: imageIcon('assets/images/idk.svg'),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => _setState(_ScoreState.mid),
+                child: Transform.scale(
+                  scale: _scoreState == _ScoreState.mid ? 1.25 : 1,
+                  child: imageIcon('assets/images/normal.svg'),
+                ),
+              ),
+              GestureDetector(
+                onTap: () => _setState(_ScoreState.good),
+                child: Transform.scale(
+                  scale: _scoreState == _ScoreState.good ? 1.25 : 1,
+                  child: imageIcon('assets/images/like.svg'),
+                ),
+              ),
             ],
           ),
         ),
-        Spacer(),
+        ErrorMessageWidget(widget._form.globalErrorMessage(l10n)),
+        const Spacer(),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Stack(
             children: [
               Container(
-                width: double.infinity,
                 height: 32,
                 color: colorSchema.onSurface,
               ),
-              Container(
-                width: 500,
-                height: 32,
-                color: colorSchema.warning,
+              Transform.scale(
+                scaleX: _score,
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 32,
+                  color: _colorByScore(colorSchema),
+                ),
               )
             ],
           ),
         ),
-        SizedBox.square(dimension: 32),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: FilledButton(
-            onPressed: () => _form.submitCallback(context),
+            onPressed: () => _submit(context),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconLabel(
@@ -97,8 +139,29 @@ class ScoreView extends StatelessWidget {
     );
   }
 
+  void _setState(_ScoreState state) {
+    setState(() {
+      _scoreState = state;
+      _score = _scoreByState(state);
+    });
+  }
+
+  Color _colorByScore(ColorScheme colorSchema) {
+    return switch (_scoreState) {
+      _ScoreState.bad => colorSchema.error,
+      _ScoreState.mid => colorSchema.warning,
+      _ScoreState.good => colorSchema.success,
+    };
+  }
+
+  Future<void> _submit(BuildContext context) {
+    /*todo: validation*/
+    widget._form._score = _score;
+    return widget._form.submitCallback(context);
+  }
+
   static Widget imageIcon(String path) {
-    return Container(
+    return SizedBox(
       height: 64,
       child: SvgPicture.asset(
         path,
@@ -106,4 +169,14 @@ class ScoreView extends StatelessWidget {
       ),
     );
   }
+
+  static double _scoreByState(_ScoreState state) {
+    return switch (state) {
+      _ScoreState.bad => 0.1,
+      _ScoreState.mid => 0.5,
+      _ScoreState.good => 1,
+    };
+  }
 }
+
+enum _ScoreState { bad, mid, good }

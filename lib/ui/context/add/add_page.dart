@@ -17,13 +17,13 @@ class _AddPageState extends State<AddPage> {
   late final DescriptionForm _descriptionForm;
   late final TagForm _tagForm;
   late final ScoreForm _scoreForm;
-  _PageMode _pageMode = _PageMode.image;
+  _PageMode _pageMode = _PageMode.score;
 
   _AddPageState() {
     _imageForm = PictureWithLocationForm(_imageNext);
     _descriptionForm = DescriptionForm(_descNext);
     _tagForm = TagForm(_tagNext);
-    _scoreForm = ScoreForm(_tagNext);
+    _scoreForm = ScoreForm(_scoreNext);
   }
 
   @override
@@ -31,7 +31,7 @@ class _AddPageState extends State<AddPage> {
     return AppPage(body: buildBody(context));
   }
 
-  Widget buildBody (BuildContext context) {
+  Widget buildBody(BuildContext context) {
     if (_pageMode == _PageMode.image) {
       return CameraView(_imageForm);
     }
@@ -41,7 +41,7 @@ class _AddPageState extends State<AddPage> {
     if (_pageMode == _PageMode.tag) {
       return TagView(_tagForm, _imageForm.imagePath);
     }
-    return ScoreView(_scoreForm, _imageForm.imagePath);
+    return ScoreView(_scoreForm, _imageForm.imagePath, r'TOCIEKAWA');
   }
 
   Future _imageNext(BuildContext context) async {
@@ -61,6 +61,8 @@ class _AddPageState extends State<AddPage> {
       _pageMode = _PageMode.score;
     });
   }
+
+  Future _scoreNext(BuildContext context) async {}
 }
 
 enum _PageMode { image, desc, tag, score }
