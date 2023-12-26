@@ -23,5 +23,7 @@
   "usernameFieldLabel": "How to call you?",
 
   "rateItButton": "RateIt!",
-  "shareLocation": "Share location"
+  "shareLocation": "Share location",
+  "unknownPlace": "UNKNOWN",
+  "customTag": "custom"
 }

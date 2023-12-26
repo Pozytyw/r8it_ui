@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class TagCheckboxWidget extends StatefulWidget {
   final String name;
   final bool selected;
+  final Function(bool selected)? onSelected;
 
   const TagCheckboxWidget(
     this.name, {
     super.key,
     this.selected = false,
+    this.onSelected,
   });
 
   @override
@@ -29,6 +31,7 @@ class _TagCheckboxWidgetState extends State<TagCheckboxWidget> {
   void _selectedSwitch() {
     setState(() {
       _selected = !_selected;
+      widget.onSelected?.call(_selected);
     });
   }
 }
@@ -48,13 +51,13 @@ class TagWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var colorSchema = theme.colorScheme;
+    var colorScheme = theme.colorScheme;
     var backgroundColor =
-        selected ? colorSchema.primary : colorSchema.onSurface;
+        selected ? colorScheme.primary : colorScheme.onSurface;
     var textStyle = theme.textTheme.labelLarge;
     if (selected) {
       textStyle = textStyle?.copyWith(
-        color: colorSchema.background,
+        color: colorScheme.background,
       );
     }
     var style = ElevatedButton.styleFrom(

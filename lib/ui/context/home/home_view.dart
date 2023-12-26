@@ -73,8 +73,8 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var colorSchema = theme.colorScheme;
-    var gray = colorSchema.gray;
+    var colorScheme = theme.colorScheme;
+    var gray = colorScheme.gray;
     var graySmall = theme.textTheme.bodySmall?.copyWith(color: gray);
 
     return Column(
@@ -106,14 +106,14 @@ class PostWidget extends StatelessWidget {
                       children: [
                         Container(
                           height: 12,
-                          color: colorSchema.secondary,
+                          color: colorScheme.secondary,
                         ),
                         Transform.scale(
                           alignment: Alignment.centerLeft,
                           scaleX: 0.5,
                           child: Container(
                             height: 12,
-                            color: colorSchema.warning,
+                            color: colorScheme.warning,
                           ),
                         ),
                       ],
@@ -133,7 +133,7 @@ class PostWidget extends StatelessWidget {
                 const SizedBox.square(dimension: 8),
                 Text('23/10/2023', style: graySmall),
               ]),
-              Divider(color: colorSchema.primary),
+              Divider(color: colorScheme.primary),
             ],
           ),
         ),

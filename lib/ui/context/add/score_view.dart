@@ -44,7 +44,7 @@ class _ScoreViewState extends State<ScoreView> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final colorSchema = theme.colorScheme;
+    final colorScheme = theme.colorScheme;
     ImageProvider? imageProvider;
     if (widget.imagePath != null) {
       imageProvider = FileImage(File(widget.imagePath!));
@@ -109,14 +109,14 @@ class _ScoreViewState extends State<ScoreView> {
             children: [
               Container(
                 height: 32,
-                color: colorSchema.onSurface,
+                color: colorScheme.onSurface,
               ),
               Transform.scale(
                 scaleX: _score,
                 alignment: Alignment.topLeft,
                 child: Container(
                   height: 32,
-                  color: _colorByScore(colorSchema),
+                  color: _colorByScore(colorScheme),
                 ),
               )
             ],
@@ -146,11 +146,11 @@ class _ScoreViewState extends State<ScoreView> {
     });
   }
 
-  Color _colorByScore(ColorScheme colorSchema) {
+  Color _colorByScore(ColorScheme colorScheme) {
     return switch (_scoreState) {
-      _ScoreState.bad => colorSchema.error,
-      _ScoreState.mid => colorSchema.warning,
-      _ScoreState.good => colorSchema.success,
+      _ScoreState.bad => colorScheme.error,
+      _ScoreState.mid => colorScheme.warning,
+      _ScoreState.good => colorScheme.success,
     };
   }
 

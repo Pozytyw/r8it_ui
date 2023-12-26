@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:r8it/domain/place/place.dart';
 import 'package:r8it/ui/context/add/camera_view.dart';
 import 'package:r8it/ui/context/add/description_view.dart';
 import 'package:r8it/ui/context/add/score_view.dart';
@@ -17,12 +18,14 @@ class _AddPageState extends State<AddPage> {
   late final DescriptionForm _descriptionForm;
   late final TagForm _tagForm;
   late final ScoreForm _scoreForm;
-  _PageMode _pageMode = _PageMode.score;
+  _PageMode _pageMode = _PageMode.image;
 
   _AddPageState() {
     _imageForm = PictureWithLocationForm(_imageNext);
     _descriptionForm = DescriptionForm(_descNext);
-    _tagForm = TagForm(_tagNext);
+    _tagForm = TagForm(
+      submitCallback: _tagNext,
+    );
     _scoreForm = ScoreForm(_scoreNext);
   }
 

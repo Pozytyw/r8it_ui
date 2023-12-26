@@ -31,14 +31,14 @@ class MyApp extends StatelessWidget {
   }
 
   Widget buildWithLocaleFromPreferences(Locale locale) {
-    var appColorSchema = AppThemeData();
+    var appcolorScheme = AppThemeData();
     return MaterialApp.router(
       locale: locale,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => AppLocalizations.of(context).appName,
-      theme: appColorSchema.themeData,
+      theme: appcolorScheme.themeData,
       routerConfig: AppRouter.router,
     );
   }

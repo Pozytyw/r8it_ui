@@ -5,7 +5,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:r8it/ui/context/add/widget.dart';
 import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
-import 'package:r8it/ui/widget/app_page.dart';
 import 'package:r8it/ui/widget/form/text_field.dart';
 import 'package:r8it/ui/widget/label.dart';
 

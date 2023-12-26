@@ -4,13 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:location/location.dart';
-import 'package:r8it/app_theme.dart';
 import 'package:r8it/ui/context/add/widget.dart';
 import 'package:r8it/ui/context/auth/widget.dart';
 import 'package:r8it/ui/form.dart';
 import 'package:r8it/ui/widget/conditional.dart';
-import 'package:r8it/ui/widget/label.dart';
 import 'package:r8it/ui/widget/form/location_widget.dart';
+import 'package:r8it/ui/widget/label.dart';
 
 class PictureWithLocationForm extends AppForm {
   String? _pathToImage;
