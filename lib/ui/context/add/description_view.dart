@@ -41,51 +41,49 @@ class _DescriptionViewState extends State<DescriptionView> {
       imageProvider = FileImage(File(widget.imagePath!));
     }
 
-    return AppPage(
-      body: Column(
-        children: [
-          SizedBox(
-            height: 50,
-            child: Center(
-              child: TitleText(l10n.rateItButton),
-            ),
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+          child: Center(
+            child: TitleText(l10n.rateItButton),
           ),
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              ImagePreview(imageProvider),
-              Transform.translate(
-                offset: focused ? offsetFocused : offsetUnfocused,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Focus(
-                    onFocusChange: (v) => setState(() => focused = v),
-                    child: MultiLineTextField(
-                      maxLines: 10,
-                      minLines: 10,
-                      controller: widget._form._descriptionController,
-                    ),
+        ),
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            ImagePreview(imageProvider),
+            Transform.translate(
+              offset: focused ? offsetFocused : offsetUnfocused,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Focus(
+                  onFocusChange: (v) => setState(() => focused = v),
+                  child: MultiLineTextField(
+                    maxLines: 10,
+                    minLines: 10,
+                    controller: widget._form._descriptionController,
                   ),
                 ),
-              )
-            ],
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: FilledButton(
-              onPressed: () => widget._form.submitCallback(context),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: IconLabel(
-                  label: Text(l10n.nextButton),
-                  icon: const Icon(Icons.arrow_forward_ios_rounded),
-                ),
+              ),
+            )
+          ],
+        ),
+        const Spacer(),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FilledButton(
+            onPressed: () => widget._form.submitCallback(context),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconLabel(
+                label: Text(l10n.nextButton),
+                icon: const Icon(Icons.arrow_forward_ios_rounded),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

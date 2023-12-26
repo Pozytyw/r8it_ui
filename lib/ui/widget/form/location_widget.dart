@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:r8it/app_theme.dart';
 
 class LocationController {
+  final Set<VoidCallback> _listeners = {};
+
   bool _enabled;
 
   LocationController({bool enabled = false}) : _enabled = enabled;
@@ -10,29 +13,47 @@ class LocationController {
 
   set enabled(bool value) {
     _enabled = value;
+    for (var lister in _listeners) {
+      lister.call();
+    }
+  }
+
+  void addListener(VoidCallback listener) {
+    _listeners.add(listener);
   }
 }
 
 class DataLocationController extends LocationController {
   final Location location = Location();
+  LocationDataState? _state;
   LocationData? _locationData;
 
   DataLocationController() : super(enabled: true) {
-    tryUpdateLocationData();
+    updateLocation();
   }
 
   @override
   set enabled(bool value) {
-    _enabled = value;
-    if (_enabled) {
-      tryUpdateLocationData();
+    super.enabled = value;
+    if (enabled) {
+      updateLocation();
     }
   }
 
-  Future tryUpdateLocationData() async {
+  LocationData? get locationData => _locationData;
+
+  LocationDataState? get state => _state;
+
+  Future updateLocation() async {
     if (await _ensurePermission() && await _ensureServiceEnabled()) {
-      location.getLocation().then((l) => _locationData = l);
+      _state = LocationDataState.ensured;
+      return location
+          .getLocation()
+          .then((l) => _locationData = l)
+          .then((_) => _state = LocationDataState.read)
+          .then((_) => debugPrint('finished update'));
     }
+    enabled = false;
   }
 
   Future<bool> _ensurePermission() async {
@@ -44,20 +65,22 @@ class DataLocationController extends LocationController {
     return await location.serviceEnabled() || await location.requestService();
   }
 
-  LocationData? get locationData => _locationData;
+  bool isLoading() {
+    return enabled && _state == LocationDataState.ensured;
+  }
 }
+
+enum LocationDataState { read, ensured }
 
 class LocationCheckboxWidget extends StatefulWidget {
   final String location;
   final LocationController _controller;
   final TextStyle? style;
-  final Color unSelectedColor;
 
   LocationCheckboxWidget(
     this.location, {
     LocationController? controller,
     this.style,
-    required this.unSelectedColor,
     super.key,
   }) : _controller = controller ?? LocationController();
 
@@ -66,23 +89,36 @@ class LocationCheckboxWidget extends StatefulWidget {
 }
 
 class _LocationCheckboxWidgetState extends State<LocationCheckboxWidget> {
-  late final unSelectedColor =
-      widget.style?.copyWith(color: widget.unSelectedColor);
+  @override
+  void initState() {
+    super.initState();
+    widget._controller.addListener(_refresh);
+  }
 
   @override
   Widget build(BuildContext context) {
+    var unselectedStyle = widget.style?.copyWith(
+      color: Theme.of(context).colorScheme.gray,
+    );
     return GestureDetector(
         onTap: _selectedSwitch,
         child: LocationWidget(
           widget.location,
-          style: widget._controller.enabled ? widget.style : unSelectedColor,
+          style: widget._controller.enabled ? widget.style : unselectedStyle,
         ));
   }
 
   void _selectedSwitch() {
+    /*todo: fixit*/
+    /*todo: we need to rethink this widget. We need loading idicator while reading location data
+    *  to ensure data is read!*/
     setState(() {
-      widget._controller._enabled = !widget._controller._enabled;
+      widget._controller.enabled = !widget._controller.enabled;
     });
+  }
+
+  void _refresh() {
+    setState(() {});
   }
 }
 

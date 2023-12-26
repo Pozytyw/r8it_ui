@@ -25,7 +25,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             onChanged: (value) {
               setState(() {
                 if (value != null && value.isNotEmpty) {
-                  context.read<LocaleChangeState>().emit(Locale(value));
+                  context.read<LocaleChangeState>().emitLocaleChange(Locale(value));
                 }
               });
             },

@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LocaleChangeState extends Cubit<Locale> {
@@ -7,5 +6,13 @@ class LocaleChangeState extends Cubit<Locale> {
 
   void emitLocaleChange(Locale value) {
     emit(value);
+  }
+}
+
+class LoadingState extends Cubit<bool> {
+  LoadingState(isLoading) : super(isLoading);
+
+  static void emitLoading(BuildContext context, bool value) {
+    context.read<LoadingState>().emit(true);
   }
 }

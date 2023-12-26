@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:r8it/ui/app_router.dart';
+import 'package:r8it/ui/state/simple_events.dart';
+import 'package:r8it/ui/widget/conditional.dart';
 
 class AppPage extends StatelessWidget {
-  final Widget? body;
+  final Widget body;
 
   const AppPage({
     super.key,
-    this.body,
+    required this.body,
   });
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var colorScheme = theme.colorScheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -49,11 +53,34 @@ class AppPage extends StatelessWidget {
           ],
         ),
       ),
-      body: body,
+      body: BlocProvider(
+        create: (_) => LoadingState(false),
+        child: Stack(
+          children: [
+            body,
+            BlocBuilder<LoadingState, bool>(
+              builder: (BuildContext context, isLoading) {
+                return ConditionalWidget(
+                  condition: isLoading,
+                  builder: (_) => Container(
+                    color: colorScheme.background.withOpacity(0.55),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
+
   void _navigationBarOnTap(int index, BuildContext context) {
-    switch(index) {
+    switch (index) {
       case 1:
         AppRouter.goNavigationPage(context);
       case 2:

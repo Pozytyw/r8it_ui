@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 const shrink = SizedBox.shrink();
 
 class ConditionalWidget extends StatelessWidget {
-  final Widget child;
+  final Widget Function(BuildContext context) builder;
   final bool condition;
 
   const ConditionalWidget({
-    required this.child,
+    required this.builder,
     required this.condition,
     super.key,
   });
@@ -17,6 +17,6 @@ class ConditionalWidget extends StatelessWidget {
     if (!condition) {
       return shrink;
     }
-    return child;
+    return builder.call(context);
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:r8it/app_theme.dart';
 import 'package:r8it/ui/widget/app_page.dart';
 import 'package:r8it/ui/widget/collapsable_text.dart';
-import 'package:r8it/ui/widget/location_widget.dart';
+import 'package:r8it/ui/widget/form/tag.dart';
+import 'package:r8it/ui/widget/form/location_widget.dart';
 import 'package:r8it/ui/widget/placeholder.dart';
 
 class HomeView extends StatelessWidget {
@@ -62,42 +63,6 @@ class BottomSearchBar extends StatelessWidget implements PreferredSizeWidget {
   /*todo: how to calculate it?*/
   @override
   Size get preferredSize => const Size.fromHeight(48);
-}
-
-class TagWidget extends StatelessWidget {
-  final String name;
-  final bool selected;
-
-  const TagWidget(this.name, {this.selected = false, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var theme = Theme.of(context);
-    var colorSchema = theme.colorScheme;
-    var backgroundColor =
-        selected ? colorSchema.primary : colorSchema.onSurface;
-    var textStyle = theme.textTheme.labelLarge;
-    if (selected) {
-      textStyle = textStyle?.copyWith(
-        color: colorSchema.background,
-      );
-    }
-    var style = ElevatedButton.styleFrom(
-      backgroundColor: backgroundColor,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      minimumSize: const Size(0, 0),
-      textStyle: textStyle,
-    );
-
-    return ElevatedButton(
-      onPressed: () {},
-      style: style,
-      child: Text(
-        name,
-        style: textStyle,
-      ),
-    );
-  }
 }
 
 class PostWidget extends StatelessWidget {

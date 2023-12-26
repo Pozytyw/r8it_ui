@@ -80,7 +80,6 @@ class _TextFieldContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var colorScheme = theme.colorScheme;
-
     return Column(
       children: [
         Container(
