@@ -5,6 +5,7 @@ import 'package:r8it/ui/context/add/add_page.dart';
 import 'package:r8it/ui/context/auth/login/login_page.dart';
 import 'package:r8it/ui/context/auth/signup/signup_page.dart';
 import 'package:r8it/ui/context/home/home_view.dart';
+import 'package:r8it/ui/context/navigation/navigation_view.dart';
 import 'package:r8it/ui/context/profile/profile_view.dart';
 
 class AppRouter {
@@ -28,7 +29,7 @@ class AppRouter {
       GoRoute(
         name: _navigationPageName,
         path: '/navigation',
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => const NavigationPage(),
         redirect: (context, state) => authCheck(),
       ),
       GoRoute(

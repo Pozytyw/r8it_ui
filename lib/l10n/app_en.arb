@@ -26,5 +26,7 @@
   "shareLocation": "Share location",
   "unknownPlace": "UNKNOWN",
   "customTag": "custom",
-  "profileWelcomeMessage": "Hi!"
+  "profileWelcomeMessage": "Hi!",
+
+  "searchHint": "search"
 }

@@ -31,6 +31,7 @@ class RitRestClient {
         .then((r) => r.data!)
         .then(
           (info) => User(
+            id: info.id,
             username: info.username,
             email: info.email,
           ),
