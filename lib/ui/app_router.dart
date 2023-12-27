@@ -6,6 +6,7 @@ import 'package:r8it/ui/context/auth/login/login_page.dart';
 import 'package:r8it/ui/context/auth/signup/signup_page.dart';
 import 'package:r8it/ui/context/home/home_view.dart';
 import 'package:r8it/ui/context/navigation/navigation_view.dart';
+import 'package:r8it/ui/context/notifications/notification_page.dart';
 import 'package:r8it/ui/context/profile/profile_view.dart';
 
 class AppRouter {
@@ -47,7 +48,7 @@ class AppRouter {
       GoRoute(
         name: _notificationsPageName,
         path: '/notifications',
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => const NotificationPage(),
         redirect: (context, state) => authCheck(),
       ),
       GoRoute(

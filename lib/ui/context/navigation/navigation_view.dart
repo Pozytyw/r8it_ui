@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:r8it/domain/user/info.dart';
 import 'package:r8it/ui/widget/app_page.dart';
-import 'package:r8it/ui/widget/label.dart';
 
 class NavigationPage extends StatelessWidget {
   const NavigationPage({super.key});
